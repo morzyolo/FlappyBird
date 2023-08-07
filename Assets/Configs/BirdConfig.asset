@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed0d002511a800f4688bf4b2eaa49dd6, type: 3}
   m_Name: BirdConfig
   m_EditorClassIdentifier: 
-  _flapForce: 6
+  _flapForce: 5.5
   _flapOffset: {x: -0.4, y: -0.4}
   _maxRotationAngle: 45
   _minRotationAngle: -45
