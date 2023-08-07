@@ -300,9 +300,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1612643831}
+  - component: {fileID: 1612643835}
+  - component: {fileID: 1612643834}
   - component: {fileID: 1612643832}
   - component: {fileID: 1612643833}
-  - component: {fileID: 1612643834}
   m_Layer: 0
   m_Name: Bird
   m_TagString: Untagged
@@ -375,7 +376,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5894417db3665bb49bbf3835890e00c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _flapForce: 6
+--- !u!114 &1612643835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612643830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ec5f40df1151274693bb6aa45796a73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _config: {fileID: 11400000, guid: 8908d1b14d362e042af7da969a2868b4, type: 2}
+  _birdFlapping: {fileID: 1612643834}
 --- !u!1 &1797679143
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,4 +434,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af08fdcb3c31e54e8bdb7d2ff35f875, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bird: {fileID: 1612643834}
+  _bird: {fileID: 1612643835}
