@@ -132,7 +132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ec5f40df1151274693bb6aa45796a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _config: {fileID: 11400000, guid: 8908d1b14d362e042af7da969a2868b4, type: 2}
   _birdFlapping: {fileID: 1451808776322437321}
 --- !u!114 &1451808776322437321
 MonoBehaviour:
@@ -182,4 +181,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 5
