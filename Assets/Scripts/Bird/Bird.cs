@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Bird : MonoBehaviour
 {
+	public event Action PipePassed;
 	public event Action Collisioned;
 
 	[SerializeField] private BirdFlapping _birdFlapping;
@@ -18,15 +19,19 @@ public class Bird : MonoBehaviour
 
 	public void Flap() => _birdFlapping.Flap();
 
+	private void NotifyPipePass() => PipePassed?.Invoke();
+
 	private void NotifyCollision() => Collisioned?.Invoke();
 
 	private void OnEnable()
 	{
+		_birdCrossingDetector.PipePassed += NotifyPipePass;
 		_birdCrossingDetector.Collisioned += NotifyCollision;
 	}
 
 	private void OnDisable()
 	{
+		_birdCrossingDetector.PipePassed -= NotifyPipePass;
 		_birdCrossingDetector.Collisioned -= NotifyCollision;
 	}
 }
