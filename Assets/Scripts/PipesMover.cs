@@ -4,6 +4,7 @@ using UnityEngine;
 public class PipesMover : MonoBehaviour, IUpdateListener
 {
 	private Updater _updater;
+	private GameEventNotifier _notifier;
 
 	private List<Pipe> _pipes;
 
@@ -15,18 +16,17 @@ public class PipesMover : MonoBehaviour, IUpdateListener
 	private float _maxHeight;
 	private float _minHeight;
 
-	public void Initialize(List<Pipe> pipes, PipesConfig config, Updater updater)
+	public void Initialize(List<Pipe> pipes, PipesConfig config, Updater updater, GameEventNotifier notifier)
 	{
 		_pipes = pipes;
 
-		_endX = config.EndX;
-		_xOffset = config.XOffset;
-		_pipeMoveSpeed = config.PipeMoveSpeed;
-		_maxHeight = config.MaxHeight;
-		_minHeight = config.MinHeight;
+		ApplyConfig(config);
 
 		_updater = updater;
+		_notifier = notifier;
+
 		_updater.AddListener(this);
+		_notifier.GameOvered += StopMovePipes;
 	}
 
 	public void Tick(float deltaTime)
@@ -42,5 +42,21 @@ public class PipesMover : MonoBehaviour, IUpdateListener
 				p.transform.position = new Vector3(newX, height, 0f);
 			}
 		}
+	}
+
+	private void ApplyConfig(PipesConfig config)
+	{
+		_endX = config.EndX;
+		_xOffset = config.XOffset;
+		_pipeMoveSpeed = config.PipeMoveSpeed;
+		_maxHeight = config.MaxHeight;
+		_minHeight = config.MinHeight;
+	}
+
+	private void StopMovePipes() => _updater.RemoveListener(this);
+
+	private void OnDisable()
+	{
+		_notifier.GameOvered -= StopMovePipes;
 	}
 }

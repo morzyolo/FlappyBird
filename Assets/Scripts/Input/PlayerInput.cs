@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour, IUpdateListener
 {
-	private Updater _updater;
 	private Bird _bird;
+	private Updater _updater;
+	private GameEventNotifier _notifier;
 
-	public void Initialize(Bird bird, Updater updater)
+	public void Initialize(Bird bird, Updater updater, GameEventNotifier notifier)
 	{
 		_bird = bird;
 		_updater = updater;
+		_notifier = notifier;
+
 		_updater.AddListener(this);
+		notifier.GameOvered += StopAcceptingInput;
 	}
 
 	public void Tick(float deltaTime)
@@ -18,8 +22,10 @@ public class PlayerInput : MonoBehaviour, IUpdateListener
 			_bird.Flap();
 	}
 
+	private void StopAcceptingInput() => _updater.RemoveListener(this);
+
 	private void OnDisable()
 	{
-		_updater.RemoveListener(this);
+		_notifier.GameOvered -= StopAcceptingInput;
 	}
 }
