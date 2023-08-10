@@ -19,6 +19,10 @@ public class Bird : MonoBehaviour
 
 	public void Flap() => _birdFlapping.Flap();
 
+	public void MakePhisical() => _birdFlapping.SetBodyType(RigidbodyType2D.Dynamic);
+
+	public void MakeNonPhisical() => _birdFlapping.SetBodyType(RigidbodyType2D.Kinematic);
+
 	private void NotifyPipePass() => PipePassed?.Invoke();
 
 	private void NotifyCollision() => Collisioned?.Invoke();

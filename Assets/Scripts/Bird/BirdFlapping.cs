@@ -32,6 +32,8 @@ public class BirdFlapping : MonoBehaviour
 		_currentFlap = StartCoroutine(FlapCoroutine());
 	}
 
+	public void SetBodyType(RigidbodyType2D type) => _rigidbody.bodyType = type;
+
 	private IEnumerator FlapCoroutine()
 	{
 		Vector3 flapPosition = transform.position;

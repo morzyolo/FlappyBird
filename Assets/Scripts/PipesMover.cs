@@ -25,7 +25,7 @@ public class PipesMover : MonoBehaviour, IUpdateListener
 		_updater = updater;
 		_notifier = notifier;
 
-		_updater.AddListener(this);
+		_notifier.GameStarted += StartMovePipes;
 		_notifier.GameOvered += StopMovePipes;
 	}
 
@@ -53,10 +53,13 @@ public class PipesMover : MonoBehaviour, IUpdateListener
 		_minHeight = config.MinHeight;
 	}
 
+	private void StartMovePipes() => _updater.AddListener(this);
+
 	private void StopMovePipes() => _updater.RemoveListener(this);
 
 	private void OnDisable()
 	{
+		_notifier.GameStarted -= StartMovePipes;
 		_notifier.GameOvered -= StopMovePipes;
 	}
 }

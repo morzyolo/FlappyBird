@@ -12,8 +12,8 @@ public class PlayerInput : MonoBehaviour, IUpdateListener
 		_updater = updater;
 		_notifier = notifier;
 
-		_updater.AddListener(this);
-		notifier.GameOvered += StopAcceptingInput;
+		_notifier.GameStarted += StartAcceptingInput;
+		_notifier.GameOvered += StopAcceptingInput;
 	}
 
 	public void Tick(float deltaTime)
@@ -22,10 +22,13 @@ public class PlayerInput : MonoBehaviour, IUpdateListener
 			_bird.Flap();
 	}
 
+	private void StartAcceptingInput() => _updater.AddListener(this);
+
 	private void StopAcceptingInput() => _updater.RemoveListener(this);
 
 	private void OnDisable()
 	{
+		_notifier.GameStarted -= StartAcceptingInput;
 		_notifier.GameOvered -= StopAcceptingInput;
 	}
 }
