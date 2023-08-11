@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f59fdb6edc9d340963fa5d42fcdf48, type: 3}
   m_Name: PipesConfig
   m_EditorClassIdentifier: 
-  _pipePrefab: {fileID: 4215488916401671391, guid: 519c195284db25247b17ede0384bd4ef, type: 3}
+  _pipeObstaclePrefab: {fileID: 6651400728929874804, guid: 519c195284db25247b17ede0384bd4ef, type: 3}
   _pipesCount: 3
   _pipeMoveSpeed: 2.2
   _startX: 8

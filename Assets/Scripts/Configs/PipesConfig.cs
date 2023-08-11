@@ -3,7 +3,7 @@
 [CreateAssetMenu(menuName = "PipeConfig", order = 2)]
 public class PipesConfig : ScriptableObject
 {
-	public Pipe PipePrefab { get => _pipePrefab; }
+	public PipeObstacle PipeObstaclePrefab { get => _pipeObstaclePrefab; }
 
 	public int PipesCount { get => _pipesCount; }
 
@@ -16,10 +16,9 @@ public class PipesConfig : ScriptableObject
 	public float MaxHeight { get => _maxHeight; }
 	public float MinHeight { get => _minHeight;}
 
-	[SerializeField] private Pipe _pipePrefab;
+	[SerializeField] private PipeObstacle _pipeObstaclePrefab;
 
 	[SerializeField] private int _pipesCount = 4;
-
 	[SerializeField] private float _pipeMoveSpeed = 1f;
 
 	[SerializeField] private float _startX = 8f;

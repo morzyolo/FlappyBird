@@ -6,7 +6,7 @@ public class PipesMover : MonoBehaviour, IUpdateListener
 	private Updater _updater;
 	private GameEventNotifier _notifier;
 
-	private List<Pipe> _pipes;
+	private List<PipeObstacle> _obstacles;
 
 	private float _endX;
 	private float _xOffset;
@@ -16,9 +16,12 @@ public class PipesMover : MonoBehaviour, IUpdateListener
 	private float _maxHeight;
 	private float _minHeight;
 
-	public void Initialize(List<Pipe> pipes, PipesConfig config, Updater updater, GameEventNotifier notifier)
+	public void Initialize(List<PipeObstacle> obstacles,
+		PipesConfig config,
+		Updater updater,
+		GameEventNotifier notifier)
 	{
-		_pipes = pipes;
+		_obstacles = obstacles;
 
 		ApplyConfig(config);
 
@@ -31,15 +34,15 @@ public class PipesMover : MonoBehaviour, IUpdateListener
 
 	public void Tick(float deltaTime)
 	{
-		foreach (var p in _pipes)
+		foreach (var obs in _obstacles)
 		{
-			p.transform.Translate(_pipeMoveSpeed * Time.deltaTime * Vector3.left);
+			obs.transform.Translate(_pipeMoveSpeed * Time.deltaTime * Vector3.left);
 
-			if (p.transform.position.x < _endX)
+			if (obs.transform.position.x < _endX)
 			{
-				float newX = p.transform.position.x + _pipes.Count * _xOffset;
+				float newX = obs.transform.position.x + _obstacles.Count * _xOffset;
 				float height = Random.Range(_minHeight, _maxHeight);
-				p.transform.position = new Vector3(newX, height, 0f);
+				obs.transform.position = new Vector3(newX, height, 0f);
 			}
 		}
 	}
