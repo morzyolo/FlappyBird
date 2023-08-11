@@ -29,7 +29,7 @@ public class Bootstrap : MonoBehaviour
 		_gameEventNotifier.Initialize(_preGameUI, bird);
 		_playerInput.Initialize(bird, _updater, _gameEventNotifier);
 		_score = new Score(bird, _scoreUI, _gameEventNotifier);
-		_birdPreGameMover = new BirdPreGameMover(bird, _updater, _gameEventNotifier);
+		_birdPreGameMover = new BirdPreGameMover(bird, _updater, _birdConfig, _gameEventNotifier);
 
 		var pipeFacory = new PipesFactory(_pipesConfig);
 		var pipes = pipeFacory.Create(_pipeMover.transform);

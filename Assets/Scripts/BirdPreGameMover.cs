@@ -6,17 +6,28 @@ public class BirdPreGameMover : IUpdateListener
 	private readonly Updater _updater;
 	private readonly GameEventNotifier _notifier;
 
+	private float _yOffset;
+	private float _speed;
+
 	private float _currentSinAngle = 0f;
 
-	public BirdPreGameMover(Bird bird, Updater updater, GameEventNotifier notifier)
+	public BirdPreGameMover(Bird bird, Updater updater, BirdConfig config, GameEventNotifier notifier)
 	{
 		_bird = bird;
 		_updater = updater;
 		_notifier = notifier;
 
+		ApplyConfig(config);
+
 		_bird.MakeNonPhisical();
 		_updater.AddListener(this);
 		_notifier.GameStarted += StopMove;
+	}
+
+	private void ApplyConfig(BirdConfig config)
+	{
+		_yOffset = config.YOffset;
+		_speed = config.PreGameSpeed;
 	}
 
 	public void Tick(float deltaTime)
@@ -25,7 +36,7 @@ public class BirdPreGameMover : IUpdateListener
 			_currentSinAngle -= 360f;
 
 		_currentSinAngle += deltaTime;
-		_bird.transform.position = new Vector3(0f, Mathf.Sin(_currentSinAngle), 0f);
+		_bird.transform.position = new Vector3(0f, _yOffset * Mathf.Sin(_currentSinAngle * _speed), 0f);
 	}
 
 	private void StopMove()
