@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PipesMover : MonoBehaviour, IUpdateListener
+public class PipesMover : IUpdateListener
 {
-	private Updater _updater;
-	private GameEventNotifier _notifier;
+	private readonly Updater _updater;
+	private readonly GameEventNotifier _notifier;
 
-	private List<PipeObstacle> _obstacles;
+	private readonly List<PipeObstacle> _obstacles;
 
 	private float _endX;
 	private float _xOffset;
@@ -16,7 +16,7 @@ public class PipesMover : MonoBehaviour, IUpdateListener
 	private float _maxHeight;
 	private float _minHeight;
 
-	public void Initialize(List<PipeObstacle> obstacles,
+	public PipesMover(List<PipeObstacle> obstacles,
 		PipesConfig config,
 		Updater updater,
 		GameEventNotifier notifier)
@@ -56,13 +56,15 @@ public class PipesMover : MonoBehaviour, IUpdateListener
 		_minHeight = config.MinHeight;
 	}
 
-	private void StartMovePipes() => _updater.AddListener(this);
-
-	private void StopMovePipes() => _updater.RemoveListener(this);
-
-	private void OnDisable()
+	private void StartMovePipes()
 	{
+		_updater.AddListener(this);
 		_notifier.GameStarted -= StartMovePipes;
+	}
+
+	private void StopMovePipes()
+	{
+		_updater.RemoveListener(this);
 		_notifier.GameOvered -= StopMovePipes;
 	}
 }

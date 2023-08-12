@@ -12,7 +12,7 @@ public class Bootstrap : MonoBehaviour
 	[SerializeField] private GameEventNotifier _gameEventNotifier;
 
 	[Header("Environment")]
-	[SerializeField] private PipesMover _pipeMover;
+	[SerializeField] private Transform _pipesObstacleContainer;
 
 	[Header("UI")]
 	[SerializeField] private PreGameUI _preGameUI;
@@ -20,6 +20,7 @@ public class Bootstrap : MonoBehaviour
 
 	private Score _score;
 	private BirdPreGameMover _birdPreGameMover;
+	private PipesMover _pipeMover;
 
 	private void Awake()
 	{
@@ -32,8 +33,8 @@ public class Bootstrap : MonoBehaviour
 		_birdPreGameMover = new BirdPreGameMover(bird, _updater, _birdConfig, _gameEventNotifier);
 
 		var pipeFacory = new PipeObstaclesFactory(_pipesConfig);
-		var obstacles = pipeFacory.Create(_pipeMover.transform);
+		var obstacles = pipeFacory.Create(_pipesObstacleContainer);
 
-		_pipeMover.Initialize(obstacles, _pipesConfig, _updater, _gameEventNotifier);
+		_pipeMover = new PipesMover(obstacles, _pipesConfig, _updater, _gameEventNotifier);
 	}
 }
