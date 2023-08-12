@@ -7,6 +7,7 @@ public class Bird : MonoBehaviour
 	public event Action Collisioned;
 
 	[SerializeField] private BirdFlapping _birdFlapping;
+	[SerializeField] private BirdAnimator _birdAnimator;
 	[SerializeField] private BirdCrossingDetector _birdCrossingDetector;
 
 	private BirdTurn _birdTurn;
@@ -15,6 +16,7 @@ public class Bird : MonoBehaviour
 	{
 		_birdTurn = new BirdTurn(transform, config);
 		_birdFlapping.Initialize(_birdTurn, config);
+		_birdAnimator.Initialize(_birdCrossingDetector);
 	}
 
 	public void Flap() => _birdFlapping.Flap();
