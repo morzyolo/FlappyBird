@@ -14,7 +14,17 @@ public class Score
 
 		_ui.HideScore();
 		_notifier.GameStarted += PrepareToStart;
+		_notifier.GameOvered += HideScore;
 	}
+
+	private void HideScore()
+	{
+		_notifier.GameOvered -= HideScore;
+
+		_ui.HideScore();
+	}
+
+	public int GetCurrentScore() => _currentScore;
 
 	private void PrepareToStart()
 	{
