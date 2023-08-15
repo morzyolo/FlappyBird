@@ -1,36 +1,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PipeObstaclesMover : IUpdateListener
+public class ObstaclesMover : IUpdateListener
 {
-	private readonly Updater _updater;
+	private readonly List<Obstacle> _obstacles;
+
+	private readonly ObstaclesDefaultSetter _obstaclesSetter;
 	private readonly GameEventNotifier _notifier;
+	private readonly Updater _updater;
 
-	private readonly List<PipeObstacle> _obstacles;
+	private readonly float _endX;
+	private readonly float _xOffset;
+	private readonly float _pipeMoveSpeed;
 
-	private float _endX;
-	private float _xOffset;
-
-	private float _pipeMoveSpeed;
-
-	private float _maxHeight;
-	private float _minHeight;
-
-	public PipeObstaclesMover(List<PipeObstacle> obstacles,
-		PipesConfig config,
+	public ObstaclesMover(List<Obstacle> obstacles,
+		ObstaclesDefaultSetter obstaclesSetter,
+		GameEventNotifier notifier,
 		Updater updater,
-		GameEventNotifier notifier)
+		PipesConfig config)
 	{
 		_obstacles = obstacles;
-
-		ApplyConfig(config);
-
+		_obstaclesSetter = obstaclesSetter;
 		_updater = updater;
 		_notifier = notifier;
 
+		_endX = config.EndX;
+		_xOffset = config.XOffset;
+		_pipeMoveSpeed = config.PipeMoveSpeed;
+
 		_notifier.GameStarted += StartMovePipes;
 		_notifier.GameOvered += StopMovePipes;
-
 		_notifier.GameQuited += Unsub;
 	}
 
@@ -43,19 +42,10 @@ public class PipeObstaclesMover : IUpdateListener
 			if (obs.transform.position.x < _endX)
 			{
 				float newX = obs.transform.position.x + _obstacles.Count * _xOffset;
-				float height = Random.Range(_minHeight, _maxHeight);
+				float height = _obstaclesSetter.GetRandomHeight();
 				obs.transform.position = new Vector3(newX, height, 0f);
 			}
 		}
-	}
-
-	private void ApplyConfig(PipesConfig config)
-	{
-		_endX = config.EndX;
-		_xOffset = config.XOffset;
-		_pipeMoveSpeed = config.PipeMoveSpeed;
-		_maxHeight = config.MaxHeight;
-		_minHeight = config.MinHeight;
 	}
 
 	private void StartMovePipes() => _updater.AddListener(this);

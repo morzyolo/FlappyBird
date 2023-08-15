@@ -8,41 +8,43 @@ public class Bootstrap : MonoBehaviour
 
 	[Header("Core")]
 	[SerializeField] private Updater _updater;
-	[SerializeField] private GameEventNotifier _gameEventNotifier;
+	[SerializeField] private GameEventNotifier _notifier;
 
 	[Header("Environment")]
-	[SerializeField] private Transform _pipesObstacleContainer;
+	[SerializeField] private Transform _obstaclesContainer;
 
 	[Header("UI")]
 	[SerializeField] private PreGameUI _preGameUI;
 	[SerializeField] private ScoreUI _scoreUI;
 	[SerializeField] private EndGameUI _endGameUI;
 
+	private GameResult _gameResult;
+
 	private PlayerInput _playerInput;
-	private PipeObstaclesMover _pipeObstaclesMover;
 
-	private Score _score;
+	private ObstaclesMover _obstaclesMover;
 	private BirdPreGameMover _birdPreGameMover;
-
-	private GameIntroducer _gameIntroducer;
-	private GameResult _gameResult; 
 
 	private void Awake()
 	{
-		var obstaclesFactory = new PipeObstaclesFactory(_pipesConfig);
-		var obstacles = obstaclesFactory.Create(_pipesObstacleContainer);
+		var obstaclesFactory = new ObstaclesFactory(_pipesConfig);
+		var obstacles = obstaclesFactory.Create(_obstaclesContainer);
 
-		_pipeObstaclesMover = new PipeObstaclesMover(obstacles, _pipesConfig, _updater, _gameEventNotifier);
+		var obstaclesSetter = new ObstaclesDefaultSetter(obstacles, _notifier, _pipesConfig);
+		_obstaclesMover = new ObstaclesMover(obstacles, obstaclesSetter, _notifier, _updater, _pipesConfig);
 
 		var birdFactory = new BirdFactory(_birdConfig);
 		var bird = birdFactory.Create();
 
-		_score = new Score(bird, _scoreUI, _gameEventNotifier);
-		_playerInput = new PlayerInput(bird, _updater, _gameEventNotifier);
-		_birdPreGameMover = new BirdPreGameMover(bird, _updater, _birdConfig, _gameEventNotifier);
+		var score = new Score(bird, _scoreUI, _notifier);
 
-		_gameIntroducer = new GameIntroducer(_preGameUI);
-		_gameResult = new GameResult(_score, _endGameUI, _gameEventNotifier);
-		_gameEventNotifier.Initialize(bird, _gameIntroducer);
+		_playerInput = new PlayerInput(bird, _updater, _notifier);
+		_birdPreGameMover = new BirdPreGameMover(bird, _updater, _birdConfig, _notifier);
+
+		var gameIntroducer = new GameIntroducer(_preGameUI, _notifier);
+
+		var gameRestarter = new GameRestarter();
+		_gameResult = new GameResult(score, _endGameUI, gameRestarter, _notifier);
+		_notifier.Initialize(bird, gameIntroducer, gameRestarter);
 	}
 }

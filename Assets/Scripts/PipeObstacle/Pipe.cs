@@ -11,4 +11,6 @@ public class Pipe : MonoBehaviour
 	}
 
 	public void Deactivate() => _collider.enabled = false;
+
+	public void Activate() => _collider.enabled = true;
 }

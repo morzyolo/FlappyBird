@@ -21,6 +21,13 @@ public class Bird : MonoBehaviour
 
 	public void Flap() => _birdFlapping.Flap();
 
+	public void Reset()
+	{
+		transform.rotation = Quaternion.identity;
+		_birdFlapping.ResetVelocity();
+		_birdAnimator.Reset();
+	}
+
 	public void MakePhisical() => _birdFlapping.SetBodyType(RigidbodyType2D.Dynamic);
 
 	public void MakeNonPhisical() => _birdFlapping.SetBodyType(RigidbodyType2D.Kinematic);
@@ -40,4 +47,5 @@ public class Bird : MonoBehaviour
 		_birdCrossingDetector.PipePassed -= NotifyPipePass;
 		_birdCrossingDetector.Collisioned -= NotifyCollision;
 	}
+
 }

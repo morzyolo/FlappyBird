@@ -12,8 +12,6 @@ public class PreGameUI : MonoBehaviour
 		_gameIntroducer = gameIntroducer;
 	}
 
-	public void NotifyStartButtonPressed() => _gameIntroducer.NotifyStartGame();
-
 	public void Show()
 	{
 		_startButton.gameObject.SetActive(true);
@@ -25,6 +23,8 @@ public class PreGameUI : MonoBehaviour
 		_startButton.gameObject.SetActive(false);
 		_startButton.onClick.RemoveListener(NotifyStartButtonPressed);
 	}
+
+	private void NotifyStartButtonPressed() => _gameIntroducer.NotifyStartGame();
 
 	private void OnDisable() => _startButton.onClick.RemoveListener(NotifyStartButtonPressed);
 }

@@ -507,7 +507,7 @@ GameObject:
   - component: {fileID: 1394901516565424242}
   - component: {fileID: 6651400728929874804}
   m_Layer: 0
-  m_Name: PipeObstacle
+  m_Name: Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -540,7 +540,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1394901516565424241}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 370c5240ac3f092408dfb9dc2d7615b5, type: 3}
+  m_Script: {fileID: 11500000, guid: e144acc7459d0b04bb8b2a205811deb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _pipes:

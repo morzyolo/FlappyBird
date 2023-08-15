@@ -12,19 +12,23 @@ public class Score
 		_ui = ui;
 		_notifier = notifier;
 
-		_ui.Hide();
 		_bird.PipePassed += AddScore;
 		_notifier.GameStarted += PrepareToStart;
 		_notifier.GameOvered += HideScore;
+		_notifier.GameRestarted += SetDefault;
 		_notifier.GameQuited += Unsub;
-	}
-
-	private void HideScore()
-	{
-		_ui.Hide();
+		SetDefault();
 	}
 
 	public int GetCurrentScore() => _currentScore;
+
+	private void SetDefault()
+	{
+		_currentScore = 0;
+		_ui.Hide();
+	}
+
+	private void HideScore() => _ui.Hide();
 
 	private void PrepareToStart()
 	{
@@ -43,6 +47,7 @@ public class Score
 		_bird.PipePassed -= AddScore;
 		_notifier.GameStarted -= PrepareToStart;
 		_notifier.GameOvered -= HideScore;
+		_notifier.GameRestarted -= SetDefault;
 		_notifier.GameQuited -= Unsub;
 	}
 }

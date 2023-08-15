@@ -15,7 +15,7 @@ public class BirdCrossingDetector : MonoBehaviour
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		if (collision.gameObject.TryGetComponent<Pipe>(out var pipe))
-			pipe.transform.parent.GetComponent<PipeObstacle>().Deactivate();
+			pipe.transform.parent.GetComponent<Obstacle>().Deactivate();
 
 		Collisioned?.Invoke();
 	}
