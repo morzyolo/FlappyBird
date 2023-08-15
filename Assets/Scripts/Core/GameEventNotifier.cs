@@ -5,16 +5,17 @@ public class GameEventNotifier : MonoBehaviour
 {
 	public event Action GameStarted;
 	public event Action GameOvered;
+	public event Action GameQuited;
 
 	private Bird _bird;
-	private PreGameUI _preGameUI;
+	private GameIntroducer _introducer;
 
-	public void Initialize(PreGameUI preGameUI, Bird bird)
+	public void Initialize(Bird bird, GameIntroducer introducer)
 	{
-		_preGameUI = preGameUI;
 		_bird = bird;
+		_introducer = introducer;
 
-		_preGameUI.StartButtonPressed += NotifyStartGame;
+		_introducer.GameStarted += NotifyStartGame;
 		_bird.Collisioned += NotifyGameOver;
 	}
 
@@ -24,7 +25,8 @@ public class GameEventNotifier : MonoBehaviour
 
 	private void OnDisable()
 	{
-		_preGameUI.StartButtonPressed -= NotifyStartGame;
+		GameQuited?.Invoke();
+		_introducer.GameStarted -= NotifyStartGame;
 		_bird.Collisioned -= NotifyGameOver;
 	}
 }

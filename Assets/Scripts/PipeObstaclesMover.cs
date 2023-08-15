@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PipesMover : IUpdateListener
+public class PipeObstaclesMover : IUpdateListener
 {
 	private readonly Updater _updater;
 	private readonly GameEventNotifier _notifier;
@@ -16,7 +16,7 @@ public class PipesMover : IUpdateListener
 	private float _maxHeight;
 	private float _minHeight;
 
-	public PipesMover(List<PipeObstacle> obstacles,
+	public PipeObstaclesMover(List<PipeObstacle> obstacles,
 		PipesConfig config,
 		Updater updater,
 		GameEventNotifier notifier)
@@ -30,6 +30,8 @@ public class PipesMover : IUpdateListener
 
 		_notifier.GameStarted += StartMovePipes;
 		_notifier.GameOvered += StopMovePipes;
+
+		_notifier.GameQuited += Unsub;
 	}
 
 	public void Tick(float deltaTime)
@@ -56,15 +58,14 @@ public class PipesMover : IUpdateListener
 		_minHeight = config.MinHeight;
 	}
 
-	private void StartMovePipes()
-	{
-		_updater.AddListener(this);
-		_notifier.GameStarted -= StartMovePipes;
-	}
+	private void StartMovePipes() => _updater.AddListener(this);
 
-	private void StopMovePipes()
+	private void StopMovePipes() => _updater.RemoveListener(this);
+
+	private void Unsub()
 	{
-		_updater.RemoveListener(this);
+		_notifier.GameStarted -= StartMovePipes;
 		_notifier.GameOvered -= StopMovePipes;
+		_notifier.GameQuited -= Unsub;
 	}
 }

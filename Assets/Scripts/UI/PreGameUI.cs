@@ -1,21 +1,30 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PreGameUI : MonoBehaviour
 {
-	public event Action StartButtonPressed;
-
 	[SerializeField] private Button _startButton;
 
-	private void NotifyStart()
+	private GameIntroducer _gameIntroducer;
+
+	public void Initialize(GameIntroducer gameIntroducer)
 	{
-		StartButtonPressed?.Invoke();
-		_startButton.onClick.RemoveListener(NotifyStart);
-		_startButton.gameObject.SetActive(false);
+		_gameIntroducer = gameIntroducer;
 	}
 
-	private void OnEnable() => _startButton.onClick.AddListener(NotifyStart);
+	public void NotifyStartButtonPressed() => _gameIntroducer.NotifyStartGame();
 
-	private void OnDisable() => _startButton.onClick.RemoveListener(NotifyStart);
+	public void Show()
+	{
+		_startButton.gameObject.SetActive(true);
+		_startButton.onClick.AddListener(NotifyStartButtonPressed);
+	}
+
+	public void Hide()
+	{
+		_startButton.gameObject.SetActive(false);
+		_startButton.onClick.RemoveListener(NotifyStartButtonPressed);
+	}
+
+	private void OnDisable() => _startButton.onClick.RemoveListener(NotifyStartButtonPressed);
 }

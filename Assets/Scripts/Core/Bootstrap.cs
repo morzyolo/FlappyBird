@@ -8,7 +8,6 @@ public class Bootstrap : MonoBehaviour
 
 	[Header("Core")]
 	[SerializeField] private Updater _updater;
-	[SerializeField] private PlayerInput _playerInput;
 	[SerializeField] private GameEventNotifier _gameEventNotifier;
 
 	[Header("Environment")]
@@ -19,26 +18,31 @@ public class Bootstrap : MonoBehaviour
 	[SerializeField] private ScoreUI _scoreUI;
 	[SerializeField] private EndGameUI _endGameUI;
 
+	private PlayerInput _playerInput;
+	private PipeObstaclesMover _pipeObstaclesMover;
+
 	private Score _score;
 	private BirdPreGameMover _birdPreGameMover;
-	private PipesMover _pipeMover;
-	private GameResult _gameResult;
+
+	private GameIntroducer _gameIntroducer;
+	private GameResult _gameResult; 
 
 	private void Awake()
 	{
+		var obstaclesFactory = new PipeObstaclesFactory(_pipesConfig);
+		var obstacles = obstaclesFactory.Create(_pipesObstacleContainer);
+
+		_pipeObstaclesMover = new PipeObstaclesMover(obstacles, _pipesConfig, _updater, _gameEventNotifier);
+
 		var birdFactory = new BirdFactory(_birdConfig);
 		var bird = birdFactory.Create();
 
-		_gameEventNotifier.Initialize(_preGameUI, bird);
-		_playerInput.Initialize(bird, _updater, _gameEventNotifier);
 		_score = new Score(bird, _scoreUI, _gameEventNotifier);
+		_playerInput = new PlayerInput(bird, _updater, _gameEventNotifier);
 		_birdPreGameMover = new BirdPreGameMover(bird, _updater, _birdConfig, _gameEventNotifier);
 
-		var pipeFacory = new PipeObstaclesFactory(_pipesConfig);
-		var obstacles = pipeFacory.Create(_pipesObstacleContainer);
-
-		_pipeMover = new PipesMover(obstacles, _pipesConfig, _updater, _gameEventNotifier);
-
+		_gameIntroducer = new GameIntroducer(_preGameUI);
 		_gameResult = new GameResult(_score, _endGameUI, _gameEventNotifier);
+		_gameEventNotifier.Initialize(bird, _gameIntroducer);
 	}
 }

@@ -21,7 +21,9 @@ public class BirdPreGameMover : IUpdateListener
 
 		_bird.MakeNonPhisical();
 		_updater.AddListener(this);
+
 		_notifier.GameStarted += StopMove;
+		_notifier.GameQuited += Unsub;
 	}
 
 	private void ApplyConfig(BirdConfig config)
@@ -41,9 +43,13 @@ public class BirdPreGameMover : IUpdateListener
 
 	private void StopMove()
 	{
-		_notifier.GameStarted -= StopMove;
-
 		_updater.RemoveListener(this);
 		_bird.MakePhisical();
+	}
+
+	private void Unsub()
+	{
+		_notifier.GameStarted -= StopMove;
+		_notifier.GameQuited -= Unsub;
 	}
 }
