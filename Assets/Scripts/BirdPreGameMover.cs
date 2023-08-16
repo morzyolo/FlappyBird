@@ -32,7 +32,9 @@ public class BirdPreGameMover : IUpdateListener
 			_currentSinAngle -= 360f;
 
 		_currentSinAngle += deltaTime;
-		_bird.transform.position = new Vector3(0f, _yOffset * Mathf.Sin(_currentSinAngle * _speed), 0f);
+		var currentPosition = _bird.transform.position;
+		currentPosition.y = _yOffset * Mathf.Sin(_currentSinAngle * _speed);
+		_bird.transform.position = currentPosition;
 	}
 
 	private void StartMove()
