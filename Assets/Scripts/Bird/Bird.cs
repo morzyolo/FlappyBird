@@ -47,5 +47,4 @@ public class Bird : MonoBehaviour
 		_birdCrossingDetector.PipePassed -= NotifyPipePass;
 		_birdCrossingDetector.Collisioned -= NotifyCollision;
 	}
-
 }

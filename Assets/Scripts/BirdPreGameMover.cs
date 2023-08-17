@@ -59,7 +59,7 @@ public class BirdPreGameMover : IUpdateListener
 
 	private void Unsub()
 	{
-		_notifier.GameRestarted += Reset;
+		_notifier.GameRestarted -= Reset;
 		_notifier.GameStarted -= StopMove;
 		_notifier.GameQuited -= Unsub;
 	}

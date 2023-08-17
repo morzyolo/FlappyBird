@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7f59fdb6edc9d340963fa5d42fcdf48, type: 3}
-  m_Name: PipesConfig
+  m_Name: GroundsConfig
   m_EditorClassIdentifier: 
-  _pipeObstaclePrefab: {fileID: 6651400728929874804, guid: 519c195284db25247b17ede0384bd4ef, type: 3}
-  _pipesCount: 3
-  _pipeMoveSpeed: 2.2
-  _startX: 8
+  _prefab: {fileID: 8389621362921307432, guid: 4b6f71ec72a9fa74dbd66899b7deb4df, type: 3}
+  _objectsCount: 6
+  _moveSpeed: 2.2
+  _startX: -4
   _endX: -6
-  _xOffset: 5.5
-  _maxHeight: 4
-  _minHeight: -4
+  _xOffset: 2
+  _maxHeight: -7.2
+  _minHeight: 0

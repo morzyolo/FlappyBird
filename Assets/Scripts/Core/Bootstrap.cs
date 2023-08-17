@@ -1,16 +1,19 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Bootstrap : MonoBehaviour
 {
 	[Header("Configs")]
 	[SerializeField] private BirdConfig _birdConfig;
-	[SerializeField] private PipesConfig _pipesConfig;
+	[SerializeField] private MovingObjectsConfig _obstaclesConfig;
+	[SerializeField] private MovingObjectsConfig _groundsConfig;
 
 	[Header("Core")]
 	[SerializeField] private Updater _updater;
 	[SerializeField] private GameEventNotifier _notifier;
 
 	[Header("Environment")]
+	[SerializeField] private Transform _groundsContainer;
 	[SerializeField] private Transform _obstaclesContainer;
 
 	[Header("UI")]
@@ -22,16 +25,14 @@ public class Bootstrap : MonoBehaviour
 
 	private PlayerInput _playerInput;
 
+	private GroundsMover _groundsMover;
 	private ObstaclesMover _obstaclesMover;
 	private BirdPreGameMover _birdPreGameMover;
 
 	private void Awake()
 	{
-		var obstaclesFactory = new ObstaclesFactory(_pipesConfig);
-		var obstacles = obstaclesFactory.Create(_obstaclesContainer);
-
-		var obstaclesSetter = new ObstaclesDefaultSetter(obstacles, _notifier, _pipesConfig);
-		_obstaclesMover = new ObstaclesMover(obstacles, obstaclesSetter, _notifier, _updater, _pipesConfig);
+		InitializeGroundsMover();
+		InitializeObstaclesMover();
 
 		var birdFactory = new BirdFactory(_birdConfig);
 		var bird = birdFactory.Create();
@@ -47,4 +48,22 @@ public class Bootstrap : MonoBehaviour
 		_gameResult = new GameResult(score, _endGameUI, gameRestarter, _notifier);
 		_notifier.Initialize(bird, gameIntroducer, gameRestarter);
 	}
+
+	private void InitializeObstaclesMover()
+	{
+		var obstacles = CreateMovingObjects(_obstaclesConfig, _obstaclesContainer);
+		var obstaclesSetter = new ObstaclesDefaultSetter(obstacles, _obstaclesConfig, _notifier);
+		_obstaclesMover = new ObstaclesMover(obstacles, obstaclesSetter, _notifier, _updater, _obstaclesConfig);
+	}
+
+	private void InitializeGroundsMover()
+	{
+		var grounds = CreateMovingObjects(_groundsConfig, _groundsContainer);
+
+		var groundsSetter = new GroundsDefaultSetter(grounds, _groundsConfig, _notifier);
+		_groundsMover = new GroundsMover(grounds, groundsSetter, _notifier, _updater, _groundsConfig);
+	}
+
+	private List<MovingObject> CreateMovingObjects(MovingObjectsConfig config, Transform container)
+		=> new MovingObjectsFactory(config).Create(container);
 }
