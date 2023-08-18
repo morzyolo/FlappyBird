@@ -20,3 +20,6 @@ MonoBehaviour:
   _flapOffset: {x: -0.4, y: -0.4}
   _maxRotationAngle: 45
   _minRotationAngle: -45
+  _collisionedClip: {fileID: 8300000, guid: 2663c1d6e775fc04c9f7f3d5944c1fc0, type: 3}
+  _flappedClip: {fileID: 8300000, guid: eec740376d3902d439216dbe031da5eb, type: 3}
+  _passedClip: {fileID: 8300000, guid: d2cc690e0e079d1448f5f3548e4b9ca9, type: 3}

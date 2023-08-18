@@ -15,6 +15,10 @@ public class BirdConfig : ScriptableObject
 	public float MaxRotationAngle { get => _maxRotationAngle; }
 	public float MinRotationAngle { get => _minRotationAngle; }
 
+	public AudioClip CollisionedClip { get => _collisionedClip; }
+	public AudioClip FlappedClip { get => _flappedClip; }
+	public AudioClip PassedClip { get => _passedClip; }
+
 	[Header("PreGame")]
 	[SerializeField] private Bird _birdPrefab;
 
@@ -28,4 +32,9 @@ public class BirdConfig : ScriptableObject
 
 	[SerializeField] private float _maxRotationAngle = 45f;
 	[SerializeField] private float _minRotationAngle = -45f;
+
+	[Header("Audio")]
+	[SerializeField] private AudioClip _collisionedClip;
+	[SerializeField] private AudioClip _flappedClip;
+	[SerializeField] private AudioClip _passedClip;
 }

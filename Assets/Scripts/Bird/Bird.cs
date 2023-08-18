@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Bird : MonoBehaviour
 {
+	public event Action Flapped;
+
 	public event Action ObstaclePassed;
 	public event Action Collisioned;
 
@@ -19,7 +21,11 @@ public class Bird : MonoBehaviour
 		_birdAnimator.Initialize(_birdCrossingDetector);
 	}
 
-	public void Flap() => _birdFlapping.Flap();
+	public void Flap()
+	{
+		Flapped?.Invoke();
+		_birdFlapping.Flap();
+	}
 
 	public void Reset()
 	{

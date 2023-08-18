@@ -16,6 +16,9 @@ public class Bootstrap : MonoBehaviour
 	[SerializeField] private Transform _groundsContainer;
 	[SerializeField] private Transform _obstaclesContainer;
 
+	[Header("Audio")]
+	[SerializeField] private BirdAudioSource _birdAudioSource;
+
 	[Header("UI")]
 	[SerializeField] private PreGameUI _preGameUI;
 	[SerializeField] private ScoreUI _scoreUI;
@@ -39,6 +42,7 @@ public class Bootstrap : MonoBehaviour
 
 		var score = new Score(bird, _scoreUI, _notifier);
 
+		_birdAudioSource.Initialize(bird, _birdConfig);
 		_playerInput = new PlayerInput(bird, _updater, _notifier);
 		_birdPreGameMover = new BirdPreGameMover(bird, _updater, _birdConfig, _notifier);
 
