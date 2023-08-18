@@ -52,6 +52,7 @@ public class Bootstrap : MonoBehaviour
 	private void InitializeObstaclesMover()
 	{
 		var obstacles = CreateMovingObjects(_obstaclesConfig, _obstaclesContainer);
+
 		var obstaclesSetter = new ObstaclesDefaultSetter(obstacles, _obstaclesConfig, _notifier);
 		_obstaclesMover = new ObstaclesMover(obstacles, obstaclesSetter, _notifier, _updater, _obstaclesConfig);
 	}

@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class BirdCrossingDetector : MonoBehaviour
 {
-	public event Action PipePassed;
+	public event Action ObstaclePassed;
 	public event Action Collisioned;
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.TryGetComponent<PassTrigger> (out var _))
-			PipePassed?.Invoke();
+			ObstaclePassed?.Invoke();
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)

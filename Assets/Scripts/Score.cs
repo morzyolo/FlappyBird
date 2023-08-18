@@ -12,7 +12,7 @@ public class Score
 		_ui = ui;
 		_notifier = notifier;
 
-		_bird.PipePassed += AddScore;
+		_bird.ObstaclePassed += AddScore;
 		_notifier.GameStarted += PrepareToStart;
 		_notifier.GameOvered += HideScore;
 		_notifier.GameRestarted += SetDefault;
@@ -44,7 +44,7 @@ public class Score
 
 	private void Unsub()
 	{
-		_bird.PipePassed -= AddScore;
+		_bird.ObstaclePassed -= AddScore;
 		_notifier.GameStarted -= PrepareToStart;
 		_notifier.GameOvered -= HideScore;
 		_notifier.GameRestarted -= SetDefault;
