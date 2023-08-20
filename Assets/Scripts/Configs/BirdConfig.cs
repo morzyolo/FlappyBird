@@ -19,17 +19,20 @@ public class BirdConfig : ScriptableObject
 	public AudioClip FlappedClip { get => _flappedClip; }
 	public AudioClip PassedClip { get => _passedClip; }
 
-	[Header("PreGame")]
+	[Header("Presets")]
 	[SerializeField] private Bird _birdPrefab;
 
 	[SerializeField] private Vector3 _startPosition = new(-2.5f, 0f, 0f);
+
+	[Header("Pre-game parameters")]
 	[SerializeField] private float _yOffset = 0.3f;
 	[SerializeField] private float _preGameSpeed = 5.5f;
 
-	[Header("InGame")]
+	[Header("Parameters")]
 	[SerializeField] private float _flapForce = 5.5f;
 	[SerializeField] private Vector2 _flapOffset = new(-0.4f, 0.4f);
 
+	[Header("Rotation")]
 	[SerializeField] private float _maxRotationAngle = 45f;
 	[SerializeField] private float _minRotationAngle = -45f;
 

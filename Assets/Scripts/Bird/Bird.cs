@@ -31,7 +31,7 @@ public class Bird : MonoBehaviour
 	{
 		transform.rotation = Quaternion.identity;
 		_birdFlapping.ResetVelocity();
-		_birdAnimator.Reset();
+		_birdAnimator.StartFlapping();
 	}
 
 	public void MakePhisical() => _birdFlapping.SetBodyType(RigidbodyType2D.Dynamic);

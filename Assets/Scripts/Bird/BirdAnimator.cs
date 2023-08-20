@@ -3,12 +3,11 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class BirdAnimator : MonoBehaviour
 {
-	[SerializeField] private string StopFlapTriggerName = "IsCollisioned";
-	[SerializeField] private string ResetTriggerName = "IsReseted";
-
-	private Animator _animator;
+	[SerializeField] private string _flappingBoolName = "IsFlapping";
 
 	private BirdCrossingDetector _detector;
+
+	private Animator _animator;
 
 	private void Awake() => _animator = GetComponent<Animator>();
 
@@ -16,12 +15,13 @@ public class BirdAnimator : MonoBehaviour
 	{
 		_detector = detector;
 
-		_detector.Collisioned += StopFlapAnimation;
+		StartFlapping();
+		_detector.Collisioned += StopFlapping;
 	}
 
-	private void StopFlapAnimation() => _animator.SetTrigger(StopFlapTriggerName);
+	private void StopFlapping() => _animator.SetBool(_flappingBoolName, false);
 
-	public void Reset() => _animator.SetTrigger(ResetTriggerName);
+	public void StartFlapping() => _animator.SetBool(_flappingBoolName, true);
 
-	private void OnDisable() => _detector.Collisioned -= StopFlapAnimation;
+	private void OnDisable() => _detector.Collisioned -= StopFlapping;
 }
