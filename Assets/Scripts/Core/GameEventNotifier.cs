@@ -12,6 +12,8 @@ public class GameEventNotifier : MonoBehaviour
 	private GameIntroducer _introducer;
 	private GameRestarter _restarter;
 
+	private GameStage _currentStage = GameStage.InputStage;
+
 	public void Initialize(Bird bird, GameIntroducer introducer, GameRestarter restarter)
 	{
 		_bird = bird;
@@ -23,11 +25,32 @@ public class GameEventNotifier : MonoBehaviour
 		_restarter.GameRestarted += NotifyRestartGame;
 	}
 
-	private void NotifyRestartGame() => GameRestarted?.Invoke();
+	private void NotifyRestartGame()
+	{
+		if (_currentStage != GameStage.ResultStage)
+			return;
 
-	private void NotifyStartGame() => GameStarted?.Invoke();
+		_currentStage = GameStage.InputStage;
+		GameRestarted?.Invoke();
+	}
 
-	private void NotifyGameOver() => GameOvered?.Invoke();
+	private void NotifyStartGame()
+	{
+		if (_currentStage != GameStage.InputStage)
+			return;
+
+		_currentStage = GameStage.InGameStage;
+		GameStarted?.Invoke();
+	}
+
+	private void NotifyGameOver()
+	{
+		if (_currentStage != GameStage.InGameStage)
+			return;
+
+		_currentStage = GameStage.ResultStage;
+		GameOvered?.Invoke();
+	}
 
 	private void OnDisable()
 	{
