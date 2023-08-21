@@ -24,6 +24,9 @@ public class Bootstrap : MonoBehaviour
 	[SerializeField] private ScoreUI _scoreUI;
 	[SerializeField] private EndGameUI _endGameUI;
 
+	[Header("Transition")]
+	[SerializeField] private Fading _fading;
+
 	private GameResult _gameResult;
 
 	private PlayerInput _playerInput;
@@ -48,7 +51,7 @@ public class Bootstrap : MonoBehaviour
 
 		var gameIntroducer = new GameIntroducer(_preGameUI, _notifier);
 
-		var gameRestarter = new GameRestarter();
+		var gameRestarter = new GameRestarter(_fading);
 		_gameResult = new GameResult(score, _endGameUI, gameRestarter, _notifier);
 		_notifier.Initialize(bird, gameIntroducer, gameRestarter);
 	}
