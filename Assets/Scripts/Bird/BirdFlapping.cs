@@ -24,7 +24,13 @@ public class BirdFlapping : MonoBehaviour
 		_flapOffset = config.FlapOffset;
 	}
 
-	public void ResetVelocity() => _rigidbody.velocity = Vector2.zero;
+	public void Reset()
+	{
+		_rigidbody.velocity = Vector2.zero;
+
+		if (_currentFlap != null)
+			StopCoroutine(_currentFlap);
+	}
 
 	public void Flap()
 	{

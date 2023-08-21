@@ -30,7 +30,7 @@ public class Bird : MonoBehaviour
 	public void Reset()
 	{
 		transform.rotation = Quaternion.identity;
-		_birdFlapping.ResetVelocity();
+		_birdFlapping.Reset();
 		_birdAnimator.StartFlapping();
 	}
 
