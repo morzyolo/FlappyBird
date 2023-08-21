@@ -5,6 +5,8 @@ public class PreGameUI : MonoBehaviour
 {
 	[SerializeField] private Button _startButton;
 
+	[SerializeField] private Image[] _images;
+
 	private GameIntroducer _gameIntroducer;
 
 	public void Initialize(GameIntroducer gameIntroducer)
@@ -14,14 +16,22 @@ public class PreGameUI : MonoBehaviour
 
 	public void Show()
 	{
-		_startButton.gameObject.SetActive(true);
+		SetActive(true);
 		_startButton.onClick.AddListener(NotifyStartButtonPressed);
 	}
 
 	public void Hide()
 	{
-		_startButton.gameObject.SetActive(false);
 		_startButton.onClick.RemoveListener(NotifyStartButtonPressed);
+		SetActive(false);
+	}
+
+	private void SetActive(bool isActive)
+	{
+		_startButton.gameObject.SetActive(isActive);
+
+		for (int i = 0; i < _images.Length; i++)
+			_images[i].gameObject.SetActive(isActive);
 	}
 
 	private void NotifyStartButtonPressed() => _gameIntroducer.NotifyStartGame();
