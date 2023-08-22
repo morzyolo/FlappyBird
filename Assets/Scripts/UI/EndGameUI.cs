@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class EndGameUI : MonoBehaviour
 {
+	[SerializeField] private RectTransform _panel;
+
 	[SerializeField] private TMP_Text _currentScore;
 
 	[SerializeField] private Button _restartButton;
@@ -17,16 +19,20 @@ public class EndGameUI : MonoBehaviour
 
 	public void Show()
 	{
-		_currentScore.gameObject.SetActive(true);
-		_restartButton.gameObject.SetActive(true);
+		SetActive(true);
 		_restartButton.onClick.AddListener(RestartGame);
 	}
 
 	public void Hide()
 	{
-		_currentScore.gameObject.SetActive(false);
-		_restartButton.gameObject.SetActive(false);
 		_restartButton.onClick.RemoveListener(RestartGame);
+		SetActive(false);
+	}
+
+	private void SetActive(bool isActive)
+	{
+		_panel.gameObject.SetActive(isActive);
+		_restartButton.gameObject.SetActive(isActive);
 	}
 
 	private void RestartGame() => _gameResult.RestartGame();
