@@ -1,13 +1,18 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class Fading : MonoBehaviour
+public class Fading
 {
-	[SerializeField] private FadeImage _fadeImage;
+	private readonly FadeImage _fadeImage;
+	private readonly float _fadeSpeed;
 
-	[SerializeField] private float _fadeSpeed = 0.8f;
+	public Fading(FadeConfig config, FadeImage fadeImage)
+	{
+		_fadeSpeed = config.FadeSpeed;
+		_fadeImage = fadeImage;
+	}
 
-	private void Start()
+	public void Start()
 	{
 		_fadeImage.SetAlpha(1f);
 		_ = FadeIn();

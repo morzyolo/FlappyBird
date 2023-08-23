@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bootstrap : MonoBehaviour
+public class GameBootstrap : MonoBehaviour
 {
 	[Header("Configs")]
+	[SerializeField] private FadeConfig _fadeConfig;
 	[SerializeField] private BirdConfig _birdConfig;
 	[SerializeField] private MovingObjectsConfig _obstaclesConfig;
 	[SerializeField] private MovingObjectsConfig _groundsConfig;
@@ -23,9 +24,9 @@ public class Bootstrap : MonoBehaviour
 	[SerializeField] private PreGameUI _preGameUI;
 	[SerializeField] private ScoreUI _scoreUI;
 	[SerializeField] private EndGameUI _endGameUI;
+	[SerializeField] private FadeImage _fadeImage;
 
-	[Header("Transition")]
-	[SerializeField] private Fading _fading;
+	private Fading _fading;
 
 	private GameResult _gameResult;
 
@@ -51,9 +52,16 @@ public class Bootstrap : MonoBehaviour
 
 		var gameIntroducer = new GameIntroducer(_preGameUI, _notifier);
 
+		_fading = new Fading(_fadeConfig, _fadeImage);
+		var sceneChanger = new SceneChanger(_fading);
 		var gameRestarter = new GameRestarter(_fading);
-		_gameResult = new GameResult(score, _endGameUI, gameRestarter, _notifier);
+		_gameResult = new GameResult(score, _endGameUI, gameRestarter, _notifier, sceneChanger);
 		_notifier.Initialize(bird, gameIntroducer, gameRestarter);
+	}
+
+	private void Start()
+	{
+		_fading.Start();
 	}
 
 	private void InitializeObstaclesMover()
