@@ -1,12 +1,16 @@
 using System.Collections.Generic;
 
-public class ObstaclesMover : ObjectsMover
+public class ObstaclesMover : ObjectsHorizontalMover
 {
 	private readonly GameEventNotifier _notifier;
 
-	public ObstaclesMover(List<MovingObject> obstacles, ObstaclesDefaultSetter obstaclesSetter,
-		GameEventNotifier notifier, Updater updater, MovingObjectsConfig config)
-		: base(obstacles, updater, obstaclesSetter, config)
+	public ObstaclesMover(
+		GameEventNotifier notifier,
+		List<MovingObject> obstacles,
+		ObstaclesDefaultSetter obstaclesSetter,
+		HorizontalMovingObjectsConfig config,
+		Updater updater)
+		: base(obstacles, obstaclesSetter, config, updater)
 	{
 		_notifier = notifier;
 

@@ -1,12 +1,16 @@
 using System.Collections.Generic;
 
-public class GroundsMover : ObjectsMover
+public class GroundsMover : ObjectsHorizontalMover
 {
 	private readonly GameEventNotifier _notifier;
 
-	public GroundsMover(List<MovingObject> grounds, GroundsDefaultSetter groundsSetter,
-		GameEventNotifier notifier, Updater updater, MovingObjectsConfig config)
-		: base(grounds, updater, groundsSetter, config)
+	public GroundsMover(
+		GameEventNotifier notifier,
+		List<MovingObject> grounds,
+		GroundsDefaultSetter groundsSetter,
+		HorizontalMovingObjectsConfig config,
+		Updater updater)
+		: base(grounds, groundsSetter, config, updater)
 	{
 		_notifier = notifier;
 

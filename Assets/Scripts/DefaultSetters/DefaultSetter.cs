@@ -9,7 +9,7 @@ public abstract class DefaultSetter
 	private readonly float _startX;
 	private readonly float _xOffset;
 
-	public DefaultSetter(List<MovingObject> objects, MovingObjectsConfig config, GameEventNotifier notifier)
+	public DefaultSetter(List<MovingObject> objects, HorizontalMovingObjectsConfig config, GameEventNotifier notifier)
 	{
 		_objects = objects;
 		_notifier = notifier;

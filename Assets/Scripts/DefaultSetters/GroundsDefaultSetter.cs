@@ -4,7 +4,7 @@ public class GroundsDefaultSetter : DefaultSetter
 {
 	private readonly float _height;
 
-	public GroundsDefaultSetter(List<MovingObject> grounds, MovingObjectsConfig config,
+	public GroundsDefaultSetter(List<MovingObject> grounds, HorizontalMovingObjectsConfig config,
 		GameEventNotifier notifier)
 		: base (grounds, config, notifier)
 	{

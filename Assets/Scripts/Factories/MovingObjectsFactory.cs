@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class MovingObjectsFactory
 {
-	private readonly MovingObjectsConfig _config;
+	private readonly HorizontalMovingObjectsConfig _config;
 
-	public MovingObjectsFactory(MovingObjectsConfig config)
+	public MovingObjectsFactory(HorizontalMovingObjectsConfig config)
 	{
 		_config = config;
 	}

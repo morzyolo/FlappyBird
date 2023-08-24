@@ -1,20 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectsMover : IUpdateListener
+public class ObjectsHorizontalMover : ObjectsMover
 {
 	private readonly List<MovingObject> _objects;
-	private readonly Updater _updater;
 	private readonly DefaultSetter _setter;
 
 	private readonly float _endX;
 	private readonly float _xOffset;
 	private readonly float _moveSpeed;
 
-	public ObjectsMover(List<MovingObject> objects, Updater updater, DefaultSetter setter, MovingObjectsConfig config)
+	public ObjectsHorizontalMover(
+		List<MovingObject> objects,
+		DefaultSetter setter,
+		HorizontalMovingObjectsConfig config,
+		Updater updater)
+		: base(updater)
 	{
 		_objects = objects;
-		_updater = updater;
 		_setter = setter;
 
 		_endX = config.EndX;
@@ -22,7 +25,7 @@ public class ObjectsMover : IUpdateListener
 		_moveSpeed = config.MoveSpeed;
 	}
 
-	public void Tick(float deltaTime)
+	public override void Tick(float deltaTime)
 	{
 		for (int i = 0; i < _objects.Count; i++)
 		{
@@ -36,8 +39,4 @@ public class ObjectsMover : IUpdateListener
 			}
 		}
 	}
-
-	protected void StartMoveObjects() => _updater.AddListener(this);
-
-	protected void StopMoveObjects() => _updater.RemoveListener(this);
 }

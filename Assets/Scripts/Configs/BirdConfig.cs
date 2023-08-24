@@ -6,8 +6,8 @@ public class BirdConfig : ScriptableObject
 	public Bird BirdPrefab { get => _birdPrefab; }
 
 	public Vector3 StartPosition { get => _startPosition; }
-	public float YOffset { get => _yOffset; }
-	public float PreGameSpeed { get => _preGameSpeed; }
+
+	public SinusMovingObjectsConfig SinusMovingObjectsConfig { get => _sinusMovingConfig; }
 
 	public float FlapForce { get => _flapForce; }
 	public Vector2 FlapOffset { get => _flapOffset; }
@@ -21,12 +21,10 @@ public class BirdConfig : ScriptableObject
 
 	[Header("Presets")]
 	[SerializeField] private Bird _birdPrefab;
-
 	[SerializeField] private Vector3 _startPosition = new(-2.5f, 0f, 0f);
 
-	[Header("Pre-game parameters")]
-	[SerializeField] private float _yOffset = 0.3f;
-	[SerializeField] private float _preGameSpeed = 5.5f;
+	[Header("Sinus Moving")]
+	[SerializeField] private SinusMovingObjectsConfig _sinusMovingConfig;
 
 	[Header("Parameters")]
 	[SerializeField] private float _flapForce = 5.5f;
@@ -40,4 +38,5 @@ public class BirdConfig : ScriptableObject
 	[SerializeField] private AudioClip _collisionedClip;
 	[SerializeField] private AudioClip _flappedClip;
 	[SerializeField] private AudioClip _passedClip;
+	
 }

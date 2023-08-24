@@ -6,8 +6,8 @@ public class GameBootstrap : MonoBehaviour
 	[Header("Configs")]
 	[SerializeField] private FadeConfig _fadeConfig;
 	[SerializeField] private BirdConfig _birdConfig;
-	[SerializeField] private MovingObjectsConfig _obstaclesConfig;
-	[SerializeField] private MovingObjectsConfig _groundsConfig;
+	[SerializeField] private HorizontalMovingObjectsConfig _obstaclesConfig;
+	[SerializeField] private HorizontalMovingObjectsConfig _groundsConfig;
 
 	[Header("Core")]
 	[SerializeField] private Updater _updater;
@@ -48,7 +48,7 @@ public class GameBootstrap : MonoBehaviour
 
 		_birdAudioSource.Initialize(bird, _birdConfig);
 		_playerInput = new PlayerInput(bird, _updater, _notifier);
-		_birdPreGameMover = new BirdPreGameMover(bird, _updater, _birdConfig, _notifier);
+		_birdPreGameMover = new BirdPreGameMover(bird, _notifier, _birdConfig, _updater);
 
 		var gameIntroducer = new GameIntroducer(_preGameUI, _notifier);
 
@@ -69,7 +69,7 @@ public class GameBootstrap : MonoBehaviour
 		var obstacles = CreateMovingObjects(_obstaclesConfig, _obstaclesContainer);
 
 		var obstaclesSetter = new ObstaclesDefaultSetter(obstacles, _obstaclesConfig, _notifier);
-		_obstaclesMover = new ObstaclesMover(obstacles, obstaclesSetter, _notifier, _updater, _obstaclesConfig);
+		_obstaclesMover = new ObstaclesMover(_notifier, obstacles, obstaclesSetter, _obstaclesConfig, _updater);
 	}
 
 	private void InitializeGroundsMover()
@@ -77,9 +77,9 @@ public class GameBootstrap : MonoBehaviour
 		var grounds = CreateMovingObjects(_groundsConfig, _groundsContainer);
 
 		var groundsSetter = new GroundsDefaultSetter(grounds, _groundsConfig, _notifier);
-		_groundsMover = new GroundsMover(grounds, groundsSetter, _notifier, _updater, _groundsConfig);
+		_groundsMover = new GroundsMover(_notifier, grounds, groundsSetter, _groundsConfig, _updater);
 	}
 
-	private List<MovingObject> CreateMovingObjects(MovingObjectsConfig config, Transform container)
+	private List<MovingObject> CreateMovingObjects(HorizontalMovingObjectsConfig config, Transform container)
 		=> new MovingObjectsFactory(config).Create(container);
 }

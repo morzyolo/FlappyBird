@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "MovingObjectsConfig", order = 2)]
-public class MovingObjectsConfig : ScriptableObject
+[CreateAssetMenu(menuName = "MovingObjectsConfig/Horizontal", order = 2)]
+public class HorizontalMovingObjectsConfig : ScriptableObject
 {
 	public MovingObject Prefab { get => _prefab; }
 
