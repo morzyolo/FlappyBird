@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using UnityEngine;
-
 public class BirdPreGameMover : ObjectSinusMover
 {
 	private readonly Bird _bird;
@@ -11,7 +8,7 @@ public class BirdPreGameMover : ObjectSinusMover
 		GameEventNotifier notifier,
 		BirdConfig config,
 		Updater updater)
-		: base (new List<Transform>() { bird.transform }, config.SinusMovingObjectsConfig, updater)
+		: base(bird.transform, config.SinusMovingObjectsConfig, updater)
 	{
 		_bird = bird;
 		_notifier = notifier;

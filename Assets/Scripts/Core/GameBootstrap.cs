@@ -77,7 +77,7 @@ public class GameBootstrap : MonoBehaviour
 		var grounds = CreateMovingObjects(_groundsConfig, _groundsContainer);
 
 		var groundsSetter = new GroundsDefaultSetter(grounds, _groundsConfig, _notifier);
-		_groundsMover = new GroundsMover(_notifier, grounds, groundsSetter, _groundsConfig, _updater);
+		_groundsMover = new GroundsMover(grounds, groundsSetter, _groundsConfig, _updater, _notifier);
 	}
 
 	private List<MovingObject> CreateMovingObjects(HorizontalMovingObjectsConfig config, Transform container)

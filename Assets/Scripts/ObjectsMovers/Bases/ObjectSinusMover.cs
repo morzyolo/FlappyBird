@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectSinusMover : ObjectsMover
 {
-	private readonly List<Transform> _objects;
+	private readonly Transform _obj;
 
 	private readonly float _startY;
 	private readonly float _yOffset;
@@ -14,18 +13,18 @@ public class ObjectSinusMover : ObjectsMover
 	private float _currentSinAngle = 0f;
 
 	public ObjectSinusMover(
-		List<Transform> objects,
+		Transform obj,
 		SinusMovingObjectsConfig config,
 		Updater updater)
 		: base(updater)
 	{
-		_objects = objects;
+		_obj = obj;
 
-		_startY = config.StartY;
+		_startY = obj.position.y;
 		_yOffset = config.YOffset;
 		_speed = config.Speed;
 
-		_period = Mathf.PI * 2 / Mathf.Abs(_yOffset);
+		_period = Mathf.PI * 2 / Mathf.Abs(_speed);
 	}
 
 	public override void Tick(float deltaTime)
@@ -35,13 +34,8 @@ public class ObjectSinusMover : ObjectsMover
 		if (_currentSinAngle > _period)
 			_currentSinAngle -= _period;
 
-		float currentY = _startY + _yOffset * Mathf.Sin(_currentSinAngle * _speed);
-
-		for (int i = 0; i < _objects.Count; ++i)
-		{
-			Vector3 newPosition = _objects[i].position;
-			newPosition.y = currentY;
-			_objects[i].transform.position = newPosition;
-		}
+		Vector3 newPosition = _obj.position;
+		newPosition.y = _startY + _yOffset * Mathf.Sin(_currentSinAngle * _speed);
+		_obj.position = newPosition;
 	}
 }
