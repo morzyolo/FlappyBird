@@ -13,16 +13,27 @@ public class GameResult
 	private readonly Score _score;
 	private readonly EndGameUI _ui;
 	private readonly GameRestarter _restarter;
-	private readonly GameEventNotifier _notifier;
 	private readonly SceneChanger _sceneChanger;
+	private readonly GameEventNotifier _notifier;
+	private readonly PlayerStatsDataHandler _statsHandler;
 
-	public GameResult(Score score, EndGameUI endGameUI, GameRestarter restarter, GameEventNotifier notifier, SceneChanger sceneChanger)
+	private int _bestScore = 0;
+
+	public GameResult(Score score,
+		EndGameUI endGameUI,
+		GameRestarter restarter,
+		SceneChanger sceneChanger,
+		GameEventNotifier notifier,
+		PlayerStatsDataHandler playerStatsDataHandler)
 	{
 		_score = score;
 		_ui = endGameUI;
 		_restarter = restarter;
-		_notifier = notifier;
 		_sceneChanger = sceneChanger;
+		_notifier = notifier;
+		_statsHandler = playerStatsDataHandler;
+
+		_bestScore = _statsHandler.Stats.MaxScore;
 
 		_ui.Initialize(this);
 
@@ -39,8 +50,13 @@ public class GameResult
 	private async void ShowResult()
 	{
 		await ShowGameOverText();
+		_ui.SetBestScore(_bestScore);
 		await ShowPanel();
-		await IncreaceCurrentScore();
+
+		int currentScore = _score.GetCurrentScore();
+		await IncreaceToCurrentScore(currentScore);
+
+		CheckCurrentScore(currentScore);
 
 		_ui.ShowButtons();
 	}
@@ -91,10 +107,8 @@ public class GameResult
 		panel.localPosition = endPosition;
 	}
 
-	private async Task IncreaceCurrentScore()
+	private async Task IncreaceToCurrentScore(int currentScore)
 	{
-		int currentScore = _score.GetCurrentScore();
-
 		_ui.SetCurrentScore(0);
 
 		float t = 0;
@@ -110,6 +124,24 @@ public class GameResult
 	}
 
 	private int CalculateScore(float x) => (int)(x * x);
+
+	private void CheckCurrentScore(int currentScore)
+	{
+		if (currentScore > _bestScore)
+		{
+			_bestScore = currentScore;
+			_ui.ShowNewBestScore();
+			_ui.SetBestScore(_bestScore);
+			SaveScore();
+		}
+	}
+
+	private void SaveScore()
+	{
+		PlayerStatsData statsData = _statsHandler.Stats;
+		statsData.MaxScore = _bestScore;
+		_statsHandler.SaveStats(statsData);
+	}
 
 	private void Hide()
 	{

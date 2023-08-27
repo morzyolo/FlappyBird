@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ca93923f2bc5d3429ec4bc9eb97ea86, type: 3}
   m_Name: MenuObjectsMovingConfig
   m_EditorClassIdentifier: 
-  _yOffset: 30
-  _speed: 0.01
+  _yOffset: 10
+  _speed: 5.5

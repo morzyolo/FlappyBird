@@ -8,6 +8,8 @@ public class EndGameUI : MonoBehaviour
 
 	[SerializeField] private TMP_Text _gameOverText;
 	[SerializeField] private TMP_Text _currentScore;
+	[SerializeField] private TMP_Text _bestScore;
+	[SerializeField] private RectTransform _newBestScore;
 
 	[SerializeField] private Button _restartButton;
 	[SerializeField] private Button _exitButton;
@@ -21,8 +23,8 @@ public class EndGameUI : MonoBehaviour
 
 	public void Hide()
 	{
-		_exitButton.onClick.RemoveListener(ChangeScene);
-		_restartButton.onClick.RemoveListener(RestartGame);
+		RemoveListenersFromButtons();
+		_newBestScore.gameObject.SetActive(false);
 		ButtonsSetActive(false);
 	}
 
@@ -44,6 +46,10 @@ public class EndGameUI : MonoBehaviour
 
 	public RectTransform GetPanelRectTransform() => _panel;
 
+	public void SetCurrentScore(int score) => _currentScore.text = score.ToString();
+
+	public void SetBestScore(int bestScore) => _bestScore.text = bestScore.ToString();
+
 	public void ShowButtons()
 	{
 		ButtonsSetActive(true);
@@ -51,6 +57,7 @@ public class EndGameUI : MonoBehaviour
 		_restartButton.onClick.AddListener(RestartGame);
 	}
 
+	public void ShowNewBestScore() => _newBestScore.gameObject.SetActive(true);
 
 	private void ButtonsSetActive(bool isActive)
 	{
@@ -62,11 +69,14 @@ public class EndGameUI : MonoBehaviour
 
 	private void ChangeScene() => _gameResult.ChangeScene();
 
-	public void SetCurrentScore(int score) => _currentScore.text = score.ToString();
-
-	private void OnDisable()
+	private void RemoveListenersFromButtons()
 	{
 		_exitButton.onClick.RemoveListener(ChangeScene);
 		_restartButton.onClick.RemoveListener(RestartGame);
+	}
+
+	private void OnDisable()
+	{
+		RemoveListenersFromButtons();
 	}
 }

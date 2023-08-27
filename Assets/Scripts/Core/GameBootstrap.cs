@@ -55,7 +55,10 @@ public class GameBootstrap : MonoBehaviour
 		_fading = new Fading(_fadeConfig, _fadeImage);
 		var sceneChanger = new SceneChanger(_fading);
 		var gameRestarter = new GameRestarter(_fading);
-		_gameResult = new GameResult(score, _endGameUI, gameRestarter, _notifier, sceneChanger);
+
+		var statsDataHandler = new PlayerStatsDataHandler();
+
+		_gameResult = new GameResult(score, _endGameUI, gameRestarter, sceneChanger, _notifier, statsDataHandler);
 		_notifier.Initialize(bird, gameIntroducer, gameRestarter);
 	}
 
