@@ -55,8 +55,14 @@ public class GameEventNotifier : MonoBehaviour
 	private void OnDisable()
 	{
 		GameQuited?.Invoke();
-		_introducer.GameStarted -= NotifyStartGame;
-		_bird.Collisioned -= NotifyGameOver;
-		_restarter.GameRestarted += NotifyRestartGame;
+
+		if (_bird != null)
+			_bird.Collisioned -= NotifyGameOver;
+
+		if (_introducer != null)
+			_introducer.GameStarted -= NotifyStartGame;
+
+		if (_restarter != null)
+			_restarter.GameRestarted += NotifyRestartGame;
 	}
 }

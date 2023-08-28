@@ -7,6 +7,7 @@ public class BirdFlapping : MonoBehaviour
 	private Rigidbody2D _rigidbody;
 
 	private BirdTurn _birdTurn;
+
 	private float _flapForce;
 	private Vector2 _flapOffset;
 
@@ -20,6 +21,7 @@ public class BirdFlapping : MonoBehaviour
 	public void Initialize(BirdTurn birdTurn, BirdConfig config)
 	{
 		_birdTurn = birdTurn;
+
 		_flapForce = config.FlapForce;
 		_flapOffset = config.FlapOffset;
 	}

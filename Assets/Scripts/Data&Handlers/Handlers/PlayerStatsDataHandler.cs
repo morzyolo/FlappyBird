@@ -25,7 +25,7 @@ public class PlayerStatsDataHandler
 		else
 		{
 			Directory.CreateDirectory(_directoryPath);
-			Stats = new ();
+			Stats = new();
 		}
 	}
 

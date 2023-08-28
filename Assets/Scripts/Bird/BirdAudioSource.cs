@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -11,7 +10,7 @@ public class BirdAudioSource : MonoBehaviour
 	private AudioClip _collisionedClip;
 	private AudioClip _flappedClip;
 	private AudioClip _passedClip;
-	
+
 	private void Awake()
 	{
 		_audioSource = GetComponent<AudioSource>();
@@ -44,10 +43,11 @@ public class BirdAudioSource : MonoBehaviour
 
 	private void OnDisable()
 	{
-		if (_bird == null) return;
-
-		_bird.Collisioned -= PlayCollisionSound;
-		_bird.Flapped -= PlayFlapSound;
-		_bird.ObstaclePassed -= PlayPassClip;
+		if (_bird != null)
+		{
+			_bird.Collisioned -= PlayCollisionSound;
+			_bird.Flapped -= PlayFlapSound;
+			_bird.ObstaclePassed -= PlayPassClip;
+		}
 	}
 }

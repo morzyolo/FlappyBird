@@ -14,6 +14,7 @@ public class BirdTurn
 	public BirdTurn(Transform birdTransform, BirdConfig config)
 	{
 		_birdTransform = birdTransform;
+
 		_maxRotationAngle = config.MaxRotationAngle;
 		_minRotationAngle = config.MinRotationAngle;
 	}

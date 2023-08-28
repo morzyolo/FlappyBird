@@ -12,12 +12,10 @@ public class Bird : MonoBehaviour
 	[SerializeField] private BirdAnimator _birdAnimator;
 	[SerializeField] private BirdCrossingDetector _birdCrossingDetector;
 
-	private BirdTurn _birdTurn;
-
 	public void Initialize(BirdConfig config)
 	{
-		_birdTurn = new BirdTurn(transform, config);
-		_birdFlapping.Initialize(_birdTurn, config);
+		var birdTurn = new BirdTurn(transform, config);
+		_birdFlapping.Initialize(birdTurn, config);
 		_birdAnimator.Initialize(_birdCrossingDetector);
 	}
 
