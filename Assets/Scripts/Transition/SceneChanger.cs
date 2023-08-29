@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine.SceneManagement;
 
 public class SceneChanger
@@ -10,7 +10,7 @@ public class SceneChanger
 		_fading = fading;
 	}
 
-	public async Task ChangeSceneAsync(string sceneName)
+	public async UniTask ChangeSceneAsync(string sceneName)
 	{
 		if (SceneManager.GetSceneByName(sceneName) == null)
 			throw new System.Exception("Wrong scene name \"{sceneName}\"");

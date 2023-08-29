@@ -19,6 +19,10 @@ public class BirdConfig : ScriptableObject
 	public AudioClip FlappedClip { get => _flappedClip; }
 	public AudioClip PassedClip { get => _passedClip; }
 
+	public int FrameDelayMs { get => _frameDelayMs; }
+	public Sprite DefaultFrame { get => _defaultFrame; }
+	public Sprite[] FlapFrames { get => _flapFrames; }
+
 	[Header("Presets")]
 	[SerializeField] private Bird _birdPrefab;
 	[SerializeField] private Vector3 _startPosition = new(-2.5f, 0f, 0f);
@@ -38,5 +42,9 @@ public class BirdConfig : ScriptableObject
 	[SerializeField] private AudioClip _collisionedClip;
 	[SerializeField] private AudioClip _flappedClip;
 	[SerializeField] private AudioClip _passedClip;
-	
+
+	[Header("Animation")]
+	[SerializeField] private int _frameDelayMs;
+	[SerializeField] private Sprite _defaultFrame;
+	[SerializeField] private Sprite[] _flapFrames;
 }

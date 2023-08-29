@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class GameResult
@@ -61,7 +61,7 @@ public class GameResult
 		_ui.ShowButtons();
 	}
 
-	private async Task ShowGameOverText()
+	private async UniTask ShowGameOverText()
 	{
 		RectTransform text = _ui.GetGameOverTextRectTransform();
 		float t = 0;
@@ -76,7 +76,7 @@ public class GameResult
 			text.position = newTextPosition;
 			t += Time.deltaTime * _uiSpeed;
 
-			await Task.Yield();
+			await UniTask.Yield();
 		}
 
 		_ui.SetGameOverTextAlpha(1);
@@ -84,7 +84,7 @@ public class GameResult
 
 	private float CalculateY(float x) => 4 * x * (1 - x);
 
-	private async Task ShowPanel()
+	private async UniTask ShowPanel()
 	{
 		RectTransform panel = _ui.GetPanelRectTransform();
 
@@ -101,13 +101,13 @@ public class GameResult
 			panel.localPosition = Vector3.Lerp(startPosition, endPosition, t);
 			t += Time.deltaTime * _uiSpeed;
 
-			await Task.Yield();
+			await UniTask.Yield();
 		}
 
 		panel.localPosition = endPosition;
 	}
 
-	private async Task IncreaceToCurrentScore(int currentScore)
+	private async UniTask IncreaceToCurrentScore(int currentScore)
 	{
 		_ui.SetCurrentScore(0);
 
@@ -119,7 +119,7 @@ public class GameResult
 			score = CalculateScore(t);
 			_ui.SetCurrentScore(score);
 
-			await Task.Yield();
+			await UniTask.Yield();
 		}
 	}
 

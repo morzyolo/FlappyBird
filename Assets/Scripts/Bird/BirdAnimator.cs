@@ -1,27 +1,78 @@
+using Cysharp.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public class BirdAnimator : MonoBehaviour
 {
-	[SerializeField] private string _flappingBoolName = "IsFlapping";
+	private SpriteChanger _spriteChanger;
 
-	private BirdCrossingDetector _detector;
+	private int _frameDelayMs;
+	private Sprite _defaultFrame;
+	private Sprite[] _flapFrames;
 
-	private Animator _animator;
+	private UniTask _flapAnimationTask;
+	private CancellationTokenSource _flapAnimationTokenSource;
 
-	private void Awake() => _animator = GetComponent<Animator>();
-
-	public void Initialize(BirdCrossingDetector detector)
+	public void Initialize(SpriteChanger spriteChanger, BirdConfig config)
 	{
-		_detector = detector;
+		_spriteChanger = spriteChanger;
 
-		StartFlapping();
-		_detector.Collisioned += StopFlapping;
+		_frameDelayMs = config.FrameDelayMs;
+		_defaultFrame = config.DefaultFrame;
+		_flapFrames = config.FlapFrames;
+
+		_spriteChanger.ChangeSprite(_defaultFrame);
 	}
 
-	private void StopFlapping() => _animator.SetBool(_flappingBoolName, false);
+	public void StopFlapping()
+	{
+		if (!_flapAnimationTask.Status.IsCompleted())
+		{
+			CancelAnimation();
+			_spriteChanger.ChangeSprite(_defaultFrame);
+		}
+	}
 
-	public void StartFlapping() => _animator.SetBool(_flappingBoolName, true);
+	public void StartFlapping()
+	{
+		if (_flapAnimationTask.Status.IsCompleted())
+			_flapAnimationTask = PlayFlapAnimation();
+	}
 
-	private void OnDisable() => _detector.Collisioned -= StopFlapping;
+	private async UniTask PlayFlapAnimation()
+	{
+		int framesCount = _flapFrames.Length;
+
+		while (!_flapAnimationTokenSource.IsCancellationRequested)
+		{
+			for (int i = 0; i < framesCount; i++)
+			{
+				await UniTask.Delay(_frameDelayMs, cancellationToken: _flapAnimationTokenSource.Token);
+				_spriteChanger.ChangeSprite(_flapFrames[i]);
+			}
+		}
+	}
+
+	private void CancelAnimation()
+	{
+		CancelTokenSource();
+		_flapAnimationTokenSource = new CancellationTokenSource();
+	}
+
+	private void CancelTokenSource()
+	{
+		_flapAnimationTokenSource.Cancel();
+		_flapAnimationTokenSource.Dispose();
+	}
+
+	private void OnEnable()
+	{
+		_flapAnimationTokenSource?.Dispose();
+		_flapAnimationTokenSource = new CancellationTokenSource();
+	}
+
+	private void OnDisable()
+	{
+		CancelTokenSource();
+	}
 }

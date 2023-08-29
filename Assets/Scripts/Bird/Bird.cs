@@ -12,12 +12,17 @@ public class Bird : MonoBehaviour
 	[SerializeField] private BirdAnimator _birdAnimator;
 	[SerializeField] private BirdCrossingDetector _birdCrossingDetector;
 
+	[SerializeField] private SpriteRenderer _spriteRenderer;
+
 	public void Initialize(BirdConfig config)
 	{
 		var birdTurn = new BirdTurn(transform, config);
 		_birdFlapping.Initialize(birdTurn, config);
-		_birdAnimator.Initialize(_birdCrossingDetector);
+		var spriteChanger = new SpriteRendererChanger(_spriteRenderer);
+		_birdAnimator.Initialize(spriteChanger, config);
 	}
+
+	private void Start() => _birdAnimator.StartFlapping();
 
 	public void Flap()
 	{
@@ -38,7 +43,11 @@ public class Bird : MonoBehaviour
 
 	private void NotifyPipePass() => ObstaclePassed?.Invoke();
 
-	private void NotifyCollision() => Collisioned?.Invoke();
+	private void NotifyCollision()
+	{
+		_birdAnimator.StopFlapping();
+		Collisioned?.Invoke();
+	}
 
 	private void OnEnable()
 	{

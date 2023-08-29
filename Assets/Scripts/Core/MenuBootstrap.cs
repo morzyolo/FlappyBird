@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuBootstrap : MonoBehaviour
 {
 	[Header("Configs")]
+	[SerializeField] private BirdConfig _birdConfig;
 	[SerializeField] private FadeConfig _fadeConfig;
 	[SerializeField] private SinusMovingObjectsConfig _menuObjectsConfig;
 	[SerializeField] private HorizontalMovingObjectsConfig _groundsConfig;
@@ -17,7 +19,11 @@ public class MenuBootstrap : MonoBehaviour
 
 	[Header("UI")]
 	[SerializeField] private MenuUI _menuUI;
+	[SerializeField] private Image _birdImage;
 	[SerializeField] private FadeImage _fadeImage;
+
+	[Header("Bird")]
+	[SerializeField] private BirdAnimator _birdAnimator;
 
 	private Fading _fading;
 
@@ -29,11 +35,15 @@ public class MenuBootstrap : MonoBehaviour
 
 		InitializeGroundsMover();
 		_ = new MenuObjectsMover(_menuObjectsContainer, _menuObjectsConfig, _updater);
+
+		var birdImageChanger = new ImageChanger(_birdImage);
+		_birdAnimator.Initialize(birdImageChanger, _birdConfig);
 	}
 
 	private void Start()
 	{
 		_fading.Start();
+		_birdAnimator.StartFlapping();
 	}
 
 	private void InitializeGroundsMover()

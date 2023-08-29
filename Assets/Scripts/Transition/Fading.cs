@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class Fading
@@ -18,11 +18,11 @@ public class Fading
 		_ = FadeIn();
 	}
 
-	public async Task FadeIn() => await Fade(1f, 0f);
+	public async UniTask FadeIn() => await Fade(1f, 0f);
 
-	public async Task FadeOut() => await Fade(0f, 1f);
+	public async UniTask FadeOut() => await Fade(0f, 1f);
 
-	private async Task Fade(float startAlpha, float endAlpha)
+	private async UniTask Fade(float startAlpha, float endAlpha)
 	{
 		float t = 0f;
 
@@ -30,7 +30,7 @@ public class Fading
 		{
 			t += Time.deltaTime * _fadeSpeed;
 			_fadeImage.SetAlpha(Mathf.Lerp(startAlpha, endAlpha, t));
-			await Task.Yield();
+			await UniTask.Yield();
 		}
 
 		_fadeImage.SetAlpha(endAlpha);
