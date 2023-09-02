@@ -1,15 +1,13 @@
-using UnityEngine;
-
-public class PlayerInput : IUpdateListener
+public class PlayerInput
 {
 	private readonly Bird _bird;
-	private readonly Updater _updater;
+	private readonly InputPanel _inputPanel;
 	private readonly GameEventNotifier _notifier;
 
-	public PlayerInput(Bird bird, Updater updater, GameEventNotifier notifier)
+	public PlayerInput(Bird bird, InputPanel inputPanel, GameEventNotifier notifier)
 	{
 		_bird = bird;
-		_updater = updater;
+		_inputPanel = inputPanel;
 		_notifier = notifier;
 
 		_notifier.GameStarted += StartAcceptingInput;
@@ -17,15 +15,11 @@ public class PlayerInput : IUpdateListener
 		_notifier.GameQuited += Unsub;
 	}
 
-	public void Tick(float deltaTime)
-	{
-		if (Input.GetKeyDown(KeyCode.Space))
-			_bird.Flap();
-	}
+	private void Flap() => _bird.Flap();
 
-	private void StartAcceptingInput() => _updater.AddListener(this);
+	private void StartAcceptingInput() => _inputPanel.Clicked += Flap;
 
-	private void StopAcceptingInput() => _updater.RemoveListener(this);
+	private void StopAcceptingInput() => _inputPanel.Clicked -= Flap;
 
 	private void Unsub()
 	{

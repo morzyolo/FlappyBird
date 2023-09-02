@@ -25,6 +25,7 @@ public class GameBootstrap : MonoBehaviour
 	[SerializeField] private ScoreUI _scoreUI;
 	[SerializeField] private EndGameUI _endGameUI;
 	[SerializeField] private FadeImage _fadeImage;
+	[SerializeField] private InputPanel _inputPanel;
 
 	private Fading _fading;
 
@@ -47,7 +48,7 @@ public class GameBootstrap : MonoBehaviour
 		var score = new Score(bird, _scoreUI, _notifier);
 
 		_birdAudioSource.Initialize(bird, _birdConfig);
-		_playerInput = new PlayerInput(bird, _updater, _notifier);
+		_playerInput = new PlayerInput(bird, _inputPanel, _notifier);
 		_birdPreGameMover = new BirdPreGameMover(bird, _notifier, _birdConfig, _updater);
 
 		var gameIntroducer = new GameIntroducer(_preGameUI, _notifier);
