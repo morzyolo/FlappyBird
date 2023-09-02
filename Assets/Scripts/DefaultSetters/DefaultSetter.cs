@@ -25,7 +25,7 @@ public abstract class DefaultSetter
 		for (int i = 0; i < _objects.Count; i++)
 		{
 			spawnPosition.y = GetHeight();
-			_objects[i].transform.position = spawnPosition;
+			_objects[i].SetPosition(spawnPosition);
 			_objects[i].Reset();
 			spawnPosition.x += _xOffset;
 		}

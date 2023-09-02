@@ -35,7 +35,7 @@ public class ObjectsHorizontalMover : ObjectsMover
 			{
 				float newX = _objects[i].transform.position.x + _objects.Count * _xOffset;
 				float height = _setter.GetHeight();
-				_objects[i].transform.position = new Vector3(newX, height, 0f);
+				_objects[i].SetPosition(new Vector3(newX, height, 0f));
 			}
 		}
 	}
