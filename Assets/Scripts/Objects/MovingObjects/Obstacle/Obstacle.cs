@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Obstacle : MovingObject
 {
-	private readonly float _maxBorder = 13f;
+	private readonly float _maxBorder = 14f;
 	private readonly float _minBorder = -7f;
 
 	[SerializeField] private Pipe[] _pipes;
