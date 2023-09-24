@@ -37,7 +37,7 @@ public class MenuBootstrap : MonoBehaviour
 		_ = new MenuObjectsMover(_menuObjectsContainer, _menuObjectsConfig, _updater);
 
 		var birdImageChanger = new ImageChanger(_birdImage);
-		_birdAnimator.Initialize(birdImageChanger, _birdConfig);
+		_birdAnimator = new BirdAnimator(birdImageChanger, _birdConfig);
 	}
 
 	private void Start()
@@ -56,4 +56,9 @@ public class MenuBootstrap : MonoBehaviour
 
 	private List<MovingObject> CreateMovingObjects(HorizontalMovingObjectsConfig config, Transform container)
 		=> new MovingObjectsFactory(config).Create(container);
+
+	private void OnDisable()
+	{
+		_birdAnimator.Dispose();
+	}
 }

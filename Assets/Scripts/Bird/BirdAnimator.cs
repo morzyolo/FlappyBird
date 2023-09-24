@@ -1,19 +1,20 @@
 using Cysharp.Threading.Tasks;
+using System;
 using System.Threading;
 using UnityEngine;
 
-public class BirdAnimator : MonoBehaviour
+public class BirdAnimator : IDisposable
 {
-	private SpriteChanger _spriteChanger;
+	private readonly SpriteChanger _spriteChanger;
 
-	private int _frameDelayMs;
-	private Sprite _defaultFrame;
-	private Sprite[] _flapFrames;
+	private readonly int _frameDelayMs;
+	private readonly Sprite _defaultFrame;
+	private readonly Sprite[] _flapFrames;
 
 	private UniTask _flapAnimationTask;
 	private CancellationTokenSource _flapAnimationTokenSource;
 
-	public void Initialize(SpriteChanger spriteChanger, BirdConfig config)
+	public BirdAnimator(SpriteChanger spriteChanger, BirdConfig config)
 	{
 		_spriteChanger = spriteChanger;
 
@@ -22,7 +23,12 @@ public class BirdAnimator : MonoBehaviour
 		_flapFrames = config.FlapFrames;
 
 		_spriteChanger.ChangeSprite(_defaultFrame);
+
+		_flapAnimationTokenSource?.Dispose();
+		_flapAnimationTokenSource = new CancellationTokenSource();
 	}
+
+	public void Dispose() => CancelTokenSource();
 
 	public void StopFlapping()
 	{
@@ -63,16 +69,5 @@ public class BirdAnimator : MonoBehaviour
 	{
 		_flapAnimationTokenSource.Cancel();
 		_flapAnimationTokenSource.Dispose();
-	}
-
-	private void OnEnable()
-	{
-		_flapAnimationTokenSource?.Dispose();
-		_flapAnimationTokenSource = new CancellationTokenSource();
-	}
-
-	private void OnDisable()
-	{
-		CancelTokenSource();
 	}
 }

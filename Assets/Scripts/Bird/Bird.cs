@@ -19,7 +19,7 @@ public class Bird : MonoBehaviour
 		var birdTurn = new BirdTurn(transform, config);
 		_birdFlapping.Initialize(birdTurn, config);
 		var spriteChanger = new SpriteRendererChanger(_spriteRenderer);
-		_birdAnimator.Initialize(spriteChanger, config);
+		_birdAnimator = new BirdAnimator(spriteChanger, config);
 	}
 
 	private void Start() => _birdAnimator.StartFlapping();
@@ -59,5 +59,6 @@ public class Bird : MonoBehaviour
 	{
 		_birdCrossingDetector.ObstaclePassed -= NotifyPipePass;
 		_birdCrossingDetector.Collisioned -= NotifyCollision;
+		_birdAnimator?.Dispose();
 	}
 }
