@@ -1,7 +1,8 @@
 using Cysharp.Threading.Tasks;
+using System;
 using UnityEngine;
 
-public class GameResult
+public class GameResult : IDisposable
 {
 	private readonly string _menuSceneName = "Menu";
 	private readonly float _gameOverTextYModifier = 50f;
@@ -39,13 +40,19 @@ public class GameResult
 
 		_notifier.GameOvered += ShowResult;
 		_notifier.GameRestarted += Hide;
-		_notifier.GameQuited += Unsub;
+		_notifier.AddDisposable(this);
 		Hide();
 	}
 
 	public void RestartGame() => _restarter.Restart();
 
 	public async void ChangeScene() => await _sceneChanger.ChangeSceneAsync(_menuSceneName);
+
+	public void Dispose()
+	{
+		_notifier.GameOvered -= ShowResult;
+		_notifier.GameRestarted -= Hide;
+	}
 
 	private async void ShowResult()
 	{
@@ -148,12 +155,5 @@ public class GameResult
 		_ui.SetPanelPosition(_panelHideYPosition);
 		_ui.SetGameOverTextAlpha(0);
 		_ui.Hide();
-	}
-
-	private void Unsub()
-	{
-		_notifier.GameOvered -= ShowResult;
-		_notifier.GameRestarted -= Hide;
-		_notifier.GameQuited -= Unsub;
 	}
 }

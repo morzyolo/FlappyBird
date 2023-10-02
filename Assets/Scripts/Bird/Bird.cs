@@ -16,10 +16,10 @@ public class Bird : MonoBehaviour
 
 	public void Initialize(BirdConfig config)
 	{
-		var birdTurn = new BirdTurn(transform, config);
+		BirdTurn birdTurn = new(transform, config);
 		_birdFlapping.Initialize(birdTurn, config);
-		var spriteChanger = new SpriteRendererChanger(_spriteRenderer);
-		_birdAnimator = new BirdAnimator(spriteChanger, config);
+		SpriteRendererChanger spriteChanger = new(_spriteRenderer);
+		_birdAnimator = new(spriteChanger, config);
 	}
 
 	private void Start() => _birdAnimator.StartFlapping();

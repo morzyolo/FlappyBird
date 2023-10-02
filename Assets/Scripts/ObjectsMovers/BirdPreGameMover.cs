@@ -15,8 +15,14 @@ public class BirdPreGameMover : ObjectSinusMover
 
 		_notifier.GameRestarted += Reset;
 		_notifier.GameStarted += StopMove;
-		_notifier.GameQuited += Unsub;
+		_notifier.AddDisposable(this);
 		StartMove();
+	}
+
+	public override void Dispose()
+	{
+		_notifier.GameRestarted -= Reset;
+		_notifier.GameStarted -= StopMove;
 	}
 
 	private void StartMove()
@@ -35,12 +41,5 @@ public class BirdPreGameMover : ObjectSinusMover
 	{
 		StopMoveObjects();
 		_bird.MakePhisical();
-	}
-
-	private void Unsub()
-	{
-		_notifier.GameRestarted -= Reset;
-		_notifier.GameStarted -= StopMove;
-		_notifier.GameQuited -= Unsub;
 	}
 }

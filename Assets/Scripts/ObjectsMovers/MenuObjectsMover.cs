@@ -10,4 +10,6 @@ public class MenuObjectsMover : ObjectSinusMover
 	{
 		StartMoveObjects();
 	}
+
+	public override void Dispose() { }
 }

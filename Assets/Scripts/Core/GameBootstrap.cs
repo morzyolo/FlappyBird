@@ -18,7 +18,7 @@ public class GameBootstrap : MonoBehaviour
 	[SerializeField] private Transform _obstaclesContainer;
 
 	[Header("Audio")]
-	[SerializeField] private BirdAudioSource _birdAudioSource;
+	[SerializeField] private AudioSource _audioSource;
 
 	[Header("UI")]
 	[SerializeField] private PreGameUI _preGameUI;
@@ -29,27 +29,18 @@ public class GameBootstrap : MonoBehaviour
 
 	private Fading _fading;
 
-	private GameResult _gameResult;
-
-	private PlayerInput _playerInput;
-
-	private GroundsMover _groundsMover;
-	private ObstaclesMover _obstaclesMover;
-	private BirdPreGameMover _birdPreGameMover;
-
 	private void Awake()
 	{
 		InitializeGroundsMover();
 		InitializeObstaclesMover();
 
-		var birdFactory = new BirdFactory(_birdConfig);
-		var bird = birdFactory.Create();
+		var bird = new BirdFactory(_birdConfig).Create();
 
 		var score = new Score(bird, _scoreUI, _notifier);
 
-		_birdAudioSource.Initialize(bird, _birdConfig);
-		_playerInput = new PlayerInput(bird, _inputPanel, _notifier);
-		_birdPreGameMover = new BirdPreGameMover(bird, _notifier, _birdConfig, _updater);
+		_ = new BirdAudioSource(bird, _audioSource, _notifier, _birdConfig);
+		_ = new PlayerInput(bird, _inputPanel, _notifier);
+		_ = new BirdPreGameMover(bird, _notifier, _birdConfig, _updater);
 
 		var gameIntroducer = new GameIntroducer(_preGameUI, _notifier);
 
@@ -59,7 +50,7 @@ public class GameBootstrap : MonoBehaviour
 
 		var statsDataHandler = new PlayerStatsDataHandler();
 
-		_gameResult = new GameResult(score, _endGameUI, gameRestarter, sceneChanger, _notifier, statsDataHandler);
+		_ = new GameResult(score, _endGameUI, gameRestarter, sceneChanger, _notifier, statsDataHandler);
 		_notifier.Initialize(bird, gameIntroducer, gameRestarter);
 	}
 
@@ -73,7 +64,7 @@ public class GameBootstrap : MonoBehaviour
 		var obstacles = CreateMovingObjects(_obstaclesConfig, _obstaclesContainer);
 
 		var obstaclesSetter = new ObstaclesDefaultSetter(obstacles, _obstaclesConfig, _notifier);
-		_obstaclesMover = new ObstaclesMover(_notifier, obstacles, obstaclesSetter, _obstaclesConfig, _updater);
+		_ = new ObstaclesMover(_notifier, obstacles, obstaclesSetter, _obstaclesConfig, _updater);
 	}
 
 	private void InitializeGroundsMover()
@@ -81,7 +72,7 @@ public class GameBootstrap : MonoBehaviour
 		var grounds = CreateMovingObjects(_groundsConfig, _groundsContainer);
 
 		var groundsSetter = new GroundsDefaultSetter(grounds, _groundsConfig, _notifier);
-		_groundsMover = new GroundsMover(grounds, groundsSetter, _groundsConfig, _updater, _notifier);
+		_ = new GroundsMover(grounds, groundsSetter, _groundsConfig, _updater, _notifier);
 	}
 
 	private List<MovingObject> CreateMovingObjects(HorizontalMovingObjectsConfig config, Transform container)

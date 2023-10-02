@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectsHorizontalMover : ObjectsMover
+public abstract class ObjectsHorizontalMover : ObjectsMover
 {
 	private readonly List<MovingObject> _objects;
 	private readonly DefaultSetter _setter;

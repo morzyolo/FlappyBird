@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class DefaultSetter
+public abstract class DefaultSetter : IDisposable
 {
 	private readonly List<MovingObject> _objects;
 
@@ -17,6 +18,8 @@ public abstract class DefaultSetter
 	}
 
 	public abstract float GetHeight();
+
+	public abstract void Dispose();
 
 	protected void Place()
 	{

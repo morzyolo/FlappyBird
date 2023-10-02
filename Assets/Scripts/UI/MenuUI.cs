@@ -11,17 +11,17 @@ public class MenuUI : MonoBehaviour
 	public void Initialize(Menu menu)
 	{
 		_menu = menu;
-		_startButton.onClick.AddListener(StartGame);
+		_startButton.AddListener(StartGame);
 	}
 
 	private void StartGame()
 	{
-		_startButton.onClick.RemoveListener(StartGame);
+		_startButton.RemoveListener(StartGame);
 		_menu.StartGame();
 	}
 
 	private void OnDisable()
 	{
-		_startButton.onClick.RemoveListener(StartGame);
+		_startButton.RemoveListener(StartGame);
 	}
 }

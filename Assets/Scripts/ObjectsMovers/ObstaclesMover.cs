@@ -16,13 +16,12 @@ public class ObstaclesMover : ObjectsHorizontalMover
 
 		_notifier.GameStarted += StartMoveObjects;
 		_notifier.GameOvered += StopMoveObjects;
-		_notifier.GameQuited += Unsub;
+		_notifier.AddDisposable(this);
 	}
 
-	private void Unsub()
+	public override void Dispose()
 	{
 		_notifier.GameStarted -= StartMoveObjects;
 		_notifier.GameOvered -= StopMoveObjects;
-		_notifier.GameQuited -= Unsub;
 	}
 }

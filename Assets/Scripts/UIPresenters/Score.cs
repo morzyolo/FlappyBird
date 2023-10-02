@@ -1,4 +1,6 @@
-public class Score
+using System;
+
+public class Score : IDisposable
 {
 	private readonly Bird _bird;
 	private readonly ScoreUI _ui;
@@ -16,11 +18,19 @@ public class Score
 		_notifier.GameStarted += PrepareToStart;
 		_notifier.GameOvered += HideScore;
 		_notifier.GameRestarted += SetDefault;
-		_notifier.GameQuited += Unsub;
+		_notifier.AddDisposable(this);
 		SetDefault();
 	}
 
 	public int GetCurrentScore() => _currentScore;
+
+	public void Dispose()
+	{
+		_bird.ObstaclePassed -= AddScore;
+		_notifier.GameStarted -= PrepareToStart;
+		_notifier.GameOvered -= HideScore;
+		_notifier.GameRestarted -= SetDefault;
+	}
 
 	private void SetDefault()
 	{
@@ -40,14 +50,5 @@ public class Score
 	{
 		_currentScore++;
 		_ui.SetScore(_currentScore);
-	}
-
-	private void Unsub()
-	{
-		_bird.ObstaclePassed -= AddScore;
-		_notifier.GameStarted -= PrepareToStart;
-		_notifier.GameOvered -= HideScore;
-		_notifier.GameRestarted -= SetDefault;
-		_notifier.GameQuited -= Unsub;
 	}
 }

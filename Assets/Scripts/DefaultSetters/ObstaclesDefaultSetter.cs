@@ -20,22 +20,18 @@ public class ObstaclesDefaultSetter : DefaultSetter
 		_notifier = notifier;
 
 		if (notifier != null)
-			Sub();
+		{
+			_notifier.GameRestarted += Place;
+			_notifier.AddDisposable(this);
+		}
 
 		Place();
 	}
 
 	public override float GetHeight() => Random.Range(_minHeight, _maxHeight);
 
-	private void Sub()
-	{
-		_notifier.GameRestarted += Place;
-		_notifier.GameQuited += Unsub;
-	}
-
-	private void Unsub()
+	public override void Dispose()
 	{
 		_notifier.GameRestarted -= Place;
-		_notifier.GameQuited -= Unsub;
 	}
 }

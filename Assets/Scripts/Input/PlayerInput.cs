@@ -1,4 +1,6 @@
-public class PlayerInput
+using System;
+
+public class PlayerInput : IDisposable
 {
 	private readonly Bird _bird;
 	private readonly InputPanel _inputPanel;
@@ -12,7 +14,13 @@ public class PlayerInput
 
 		_notifier.GameStarted += StartAcceptingInput;
 		_notifier.GameOvered += StopAcceptingInput;
-		_notifier.GameQuited += Unsub;
+		_notifier.AddDisposable(this);
+	}
+
+	public void Dispose()
+	{
+		_notifier.GameStarted -= StartAcceptingInput;
+		_notifier.GameOvered -= StopAcceptingInput;
 	}
 
 	private void Flap() => _bird.Flap();
@@ -20,11 +28,4 @@ public class PlayerInput
 	private void StartAcceptingInput() => _inputPanel.Clicked += Flap;
 
 	private void StopAcceptingInput() => _inputPanel.Clicked -= Flap;
-
-	private void Unsub()
-	{
-		_notifier.GameStarted -= StartAcceptingInput;
-		_notifier.GameOvered -= StopAcceptingInput;
-		_notifier.GameQuited -= Unsub;
-	}
 }

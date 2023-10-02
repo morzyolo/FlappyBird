@@ -53,16 +53,16 @@ public class EndGameUI : MonoBehaviour
 	public void ShowButtons()
 	{
 		ButtonsSetActive(true);
-		_exitButton.onClick.AddListener(ChangeScene);
-		_restartButton.onClick.AddListener(RestartGame);
+		_exitButton.AddListener(ChangeScene);
+		_restartButton.AddListener(RestartGame);
 	}
 
 	public void ShowNewBestScore() => _newBestScore.gameObject.SetActive(true);
 
 	private void ButtonsSetActive(bool isActive)
 	{
-		_restartButton.gameObject.SetActive(isActive);
-		_exitButton.gameObject.SetActive(isActive);
+		_restartButton.SetActive(isActive);
+		_exitButton.SetActive(isActive);
 	}
 
 	private void RestartGame() => _gameResult.RestartGame();
@@ -71,8 +71,8 @@ public class EndGameUI : MonoBehaviour
 
 	private void RemoveListenersFromButtons()
 	{
-		_exitButton.onClick.RemoveListener(ChangeScene);
-		_restartButton.onClick.RemoveListener(RestartGame);
+		_exitButton.RemoveListener(ChangeScene);
+		_restartButton.RemoveListener(RestartGame);
 	}
 
 	private void OnDisable()

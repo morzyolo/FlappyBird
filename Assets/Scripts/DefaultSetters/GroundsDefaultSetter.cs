@@ -14,7 +14,10 @@ public class GroundsDefaultSetter : DefaultSetter
 	{
 		_notifier = notifier;
 		if (notifier != null)
-			Sub();
+		{
+			_notifier.GameRestarted += Place;
+			_notifier.AddDisposable(this);
+		}
 
 		_height = config.MaxHeight;
 
@@ -23,15 +26,8 @@ public class GroundsDefaultSetter : DefaultSetter
 
 	public override float GetHeight() => _height;
 
-	private void Sub()
-	{
-		_notifier.GameRestarted += Place;
-		_notifier.GameQuited += Unsub;
-	}
-
-	private void Unsub()
+	public override void Dispose()
 	{
 		_notifier.GameRestarted -= Place;
-		_notifier.GameQuited -= Unsub;
 	}
 }

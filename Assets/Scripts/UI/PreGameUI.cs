@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class PreGameUI : MonoBehaviour
 {
 	[SerializeField] private Button _startButton;
-
 	[SerializeField] private Image[] _images;
 
 	private GameIntroducer _gameIntroducer;
@@ -17,18 +16,18 @@ public class PreGameUI : MonoBehaviour
 	public void Show()
 	{
 		SetActive(true);
-		_startButton.onClick.AddListener(NotifyStartButtonPressed);
+		_startButton.AddListener(NotifyStartButtonPressed);
 	}
 
 	public void Hide()
 	{
-		_startButton.onClick.RemoveListener(NotifyStartButtonPressed);
+		_startButton.RemoveListener(NotifyStartButtonPressed);
 		SetActive(false);
 	}
 
 	private void SetActive(bool isActive)
 	{
-		_startButton.gameObject.SetActive(isActive);
+		_startButton.SetActive(isActive);
 
 		for (int i = 0; i < _images.Length; i++)
 			_images[i].gameObject.SetActive(isActive);
@@ -36,5 +35,5 @@ public class PreGameUI : MonoBehaviour
 
 	private void NotifyStartButtonPressed() => _gameIntroducer.NotifyStartGame();
 
-	private void OnDisable() => _startButton.onClick.RemoveListener(NotifyStartButtonPressed);
+	private void OnDisable() => _startButton.RemoveListener(NotifyStartButtonPressed);
 }

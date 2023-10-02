@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ObjectSinusMover : ObjectsMover
+public abstract class ObjectSinusMover : ObjectsMover
 {
 	private readonly Transform _obj;
 

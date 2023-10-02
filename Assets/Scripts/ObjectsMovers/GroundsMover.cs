@@ -14,22 +14,18 @@ public class GroundsMover : ObjectsHorizontalMover
 	{
 		_notifier = notifier;
 		if (notifier != null)
-			Sub();
+		{
+			_notifier.GameOvered += StopMoveObjects;
+			_notifier.GameRestarted += StartMoveObjects;
+			_notifier.AddDisposable(this);
+		}
 
 		StartMoveObjects();
 	}
 
-	private void Sub()
-	{
-		_notifier.GameOvered += StopMoveObjects;
-		_notifier.GameRestarted += StartMoveObjects;
-		_notifier.GameQuited += Unsub;
-	}
-
-	private void Unsub()
+	public override void Dispose()
 	{
 		_notifier.GameOvered -= StopMoveObjects;
 		_notifier.GameRestarted -= StartMoveObjects;
-		_notifier.GameQuited -= Unsub;
 	}
 }

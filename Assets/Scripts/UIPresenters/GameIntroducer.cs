@@ -1,6 +1,6 @@
 using System;
 
-public class GameIntroducer
+public class GameIntroducer : IDisposable
 {
 	public event Action GameStarted;
 
@@ -15,10 +15,9 @@ public class GameIntroducer
 		_ui.Initialize(this);
 
 		_notifier.GameRestarted += Show;
-		_notifier.GameQuited += Unsub;
+		_notifier.AddDisposable(this);
 		Show();
 	}
-
 
 	public void NotifyStartGame()
 	{
@@ -26,11 +25,10 @@ public class GameIntroducer
 		GameStarted?.Invoke();
 	}
 
-	private void Show() => _ui.Show();
-
-	private void Unsub()
+	public void Dispose()
 	{
 		_notifier.GameRestarted -= Show;
-		_notifier.GameQuited -= Unsub;
 	}
+
+	private void Show() => _ui.Show();
 }

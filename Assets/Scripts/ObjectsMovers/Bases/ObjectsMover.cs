@@ -1,4 +1,6 @@
-public abstract class ObjectsMover : IUpdateListener
+using System;
+
+public abstract class ObjectsMover : IUpdateListener, IDisposable
 {
 	private readonly Updater _updater;
 
@@ -6,6 +8,8 @@ public abstract class ObjectsMover : IUpdateListener
 	{
 		_updater = updater;
 	}
+
+	public abstract void Dispose();
 
 	public abstract void Tick(float deltaTime);
 

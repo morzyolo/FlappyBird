@@ -1,24 +1,19 @@
+using System;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-public class BirdAudioSource : MonoBehaviour
+public class BirdAudioSource : IDisposable
 {
-	private AudioSource _audioSource;
+	private readonly Bird _bird;
+	private readonly AudioSource _audioSource;
 
-	private Bird _bird;
+	private readonly AudioClip _collisionedClip;
+	private readonly AudioClip _flappedClip;
+	private readonly AudioClip _passedClip;
 
-	private AudioClip _collisionedClip;
-	private AudioClip _flappedClip;
-	private AudioClip _passedClip;
-
-	private void Awake()
-	{
-		_audioSource = GetComponent<AudioSource>();
-	}
-
-	public void Initialize(Bird bird, BirdConfig config)
+	public BirdAudioSource(Bird bird, AudioSource audioSource, GameEventNotifier notifier, BirdConfig config)
 	{
 		_bird = bird;
+		_audioSource = audioSource;
 
 		_collisionedClip = config.CollisionedClip;
 		_flappedClip = config.FlappedClip;
@@ -27,6 +22,14 @@ public class BirdAudioSource : MonoBehaviour
 		_bird.Collisioned += PlayCollisionSound;
 		_bird.Flapped += PlayFlapSound;
 		_bird.ObstaclePassed += PlayPassClip;
+		notifier.AddDisposable(this);
+	}
+
+	public void Dispose()
+	{
+		_bird.Collisioned -= PlayCollisionSound;
+		_bird.Flapped -= PlayFlapSound;
+		_bird.ObstaclePassed -= PlayPassClip;
 	}
 
 	private void PlayCollisionSound() => PlayClip(_collisionedClip);
@@ -39,15 +42,5 @@ public class BirdAudioSource : MonoBehaviour
 	{
 		_audioSource.clip = clip;
 		_audioSource.Play();
-	}
-
-	private void OnDisable()
-	{
-		if (_bird != null)
-		{
-			_bird.Collisioned -= PlayCollisionSound;
-			_bird.Flapped -= PlayFlapSound;
-			_bird.ObstaclePassed -= PlayPassClip;
-		}
 	}
 }

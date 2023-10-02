@@ -1,11 +1,11 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameEventNotifier : MonoBehaviour
 {
 	public event Action GameStarted;
 	public event Action GameOvered;
-	public event Action GameQuited;
 	public event Action GameRestarted;
 
 	private Bird _bird;
@@ -13,6 +13,8 @@ public class GameEventNotifier : MonoBehaviour
 	private GameRestarter _restarter;
 
 	private GameStage _currentStage = GameStage.InputStage;
+
+	private readonly List<IDisposable> _disposableObjects = new();
 
 	public void Initialize(Bird bird, GameIntroducer introducer, GameRestarter restarter)
 	{
@@ -24,6 +26,8 @@ public class GameEventNotifier : MonoBehaviour
 		_bird.Collisioned += NotifyGameOver;
 		_restarter.GameRestarted += NotifyRestartGame;
 	}
+
+	public void AddDisposable(IDisposable disposable) => _disposableObjects.Add(disposable);
 
 	private void NotifyRestartGame()
 	{
@@ -54,8 +58,6 @@ public class GameEventNotifier : MonoBehaviour
 
 	private void OnDisable()
 	{
-		GameQuited?.Invoke();
-
 		if (_bird != null)
 			_bird.Collisioned -= NotifyGameOver;
 
@@ -64,5 +66,8 @@ public class GameEventNotifier : MonoBehaviour
 
 		if (_restarter != null)
 			_restarter.GameRestarted += NotifyRestartGame;
+
+		foreach (var disposable in _disposableObjects)
+			disposable.Dispose();
 	}
 }
