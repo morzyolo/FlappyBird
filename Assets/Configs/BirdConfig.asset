@@ -22,10 +22,10 @@ MonoBehaviour:
   _collisionedClip: {fileID: 8300000, guid: 2663c1d6e775fc04c9f7f3d5944c1fc0, type: 3}
   _flappedClip: {fileID: 8300000, guid: eec740376d3902d439216dbe031da5eb, type: 3}
   _passedClip: {fileID: 8300000, guid: d2cc690e0e079d1448f5f3548e4b9ca9, type: 3}
-  _frameDelayMs: 90
-  _defaultFrame: {fileID: 445164317, guid: 9f7bb9cbbbc017f468e7b46f523d6f77, type: 3}
-  _flapFrames:
-  - {fileID: 2037063262, guid: 9f7bb9cbbbc017f468e7b46f523d6f77, type: 3}
-  - {fileID: 445164317, guid: 9f7bb9cbbbc017f468e7b46f523d6f77, type: 3}
-  - {fileID: -941373947, guid: 9f7bb9cbbbc017f468e7b46f523d6f77, type: 3}
-  - {fileID: 445164317, guid: 9f7bb9cbbbc017f468e7b46f523d6f77, type: 3}
+  _animationData:
+    _frameDelayMs: 90
+    _defaultFrame: {fileID: 445164317, guid: 9f7bb9cbbbc017f468e7b46f523d6f77, type: 3}
+    _flapFrames:
+    - {fileID: 2037063262, guid: 9f7bb9cbbbc017f468e7b46f523d6f77, type: 3}
+    - {fileID: 445164317, guid: 9f7bb9cbbbc017f468e7b46f523d6f77, type: 3}
+    - {fileID: -941373947, guid: 9f7bb9cbbbc017f468e7b46f523d6f77, type: 3}
