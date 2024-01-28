@@ -7,7 +7,7 @@ using Zenject;
 
 namespace Installers.MainMenu
 {
-	public class BirdAnimatorInstaller : MonoInstaller
+	public class BirdImageAnimatorInstaller : MonoInstaller
 	{
 		[SerializeField] private Image _birdImage;
 		[SerializeField] private BirdConfig _birdConfig;
