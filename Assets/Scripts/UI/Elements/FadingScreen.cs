@@ -1,4 +1,4 @@
-using Configs;
+using Configs.Fade;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 

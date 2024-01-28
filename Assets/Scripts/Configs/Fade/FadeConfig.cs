@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Configs
+namespace Configs.Fade
 {
 	[CreateAssetMenu(menuName = "FadeConfig", order = 3)]
 	public class FadeConfig : ScriptableObject

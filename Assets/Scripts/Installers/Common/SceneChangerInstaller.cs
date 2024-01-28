@@ -1,4 +1,4 @@
-using Configs;
+using Configs.Fade;
 using Transition;
 using UI.Elements;
 using UnityEngine;
