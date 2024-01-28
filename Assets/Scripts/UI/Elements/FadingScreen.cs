@@ -22,12 +22,15 @@ namespace UI.Elements
 		private async UniTask Fade(float startAlpha, float endAlpha)
 		{
 			_fadeImage.SetAlpha(startAlpha);
-			float t = 0f;
+			float time = 0f;
 
-			while (t < 1f)
+			while (time < _config.FadeDuration)
 			{
-				t += Time.deltaTime * _config.FadeSpeed;
-				_fadeImage.SetAlpha(Mathf.Lerp(startAlpha, endAlpha, t));
+				time += Time.deltaTime;
+
+				float alpha = Mathf.Lerp(startAlpha, endAlpha, time / _config.FadeDuration);
+				_fadeImage.SetAlpha(alpha);
+
 				await UniTask.Yield(PlayerLoopTiming.Update);
 			}
 
