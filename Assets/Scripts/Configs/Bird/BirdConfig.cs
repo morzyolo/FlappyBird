@@ -1,4 +1,5 @@
 using Configs.Bird.Data;
+using Configs.Motion.Sinus;
 using UnityEngine;
 
 namespace Configs.Bird
