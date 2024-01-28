@@ -6,7 +6,7 @@ namespace Bird.Components
 	public class BirdCrossingDetector : MonoBehaviour
 	{
 		public event Action ObstaclePassed;
-		public event Action Collisioned;
+		public event Action Collided;
 
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
@@ -21,7 +21,7 @@ namespace Bird.Components
 				if (collision.gameObject.TryGetComponent<Pipe>(out var pipe))
 					pipe.transform.parent.GetComponent<Obstacle>().Deactivate();
 
-				Collisioned?.Invoke();
+				Collided?.Invoke();
 			}
 		}
 	}
