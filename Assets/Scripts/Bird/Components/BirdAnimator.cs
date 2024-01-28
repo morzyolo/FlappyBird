@@ -1,4 +1,4 @@
-using Configs.Data;
+using Configs.Bird.Data;
 using Cysharp.Threading.Tasks;
 using SpriteChangers;
 using System;

@@ -1,5 +1,5 @@
 using Bird.Components;
-using Configs;
+using Configs.Bird;
 using SpriteChangers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,7 +30,7 @@ namespace Installers.MainMenu
 		private void BindBirdAnimator()
 		{
 			Container
-				.BindInterfacesTo<BirdAnimator>()
+				.BindInterfacesAndSelfTo<BirdAnimator>()
 				.AsSingle()
 				.WithArguments(_birdConfig.AnimationData)
 				.NonLazy();
