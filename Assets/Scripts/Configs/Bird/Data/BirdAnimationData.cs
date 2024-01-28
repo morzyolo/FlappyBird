@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Configs.Data
+namespace Configs.Bird.Data
 {
 	[System.Serializable]
 	public class BirdAnimationData

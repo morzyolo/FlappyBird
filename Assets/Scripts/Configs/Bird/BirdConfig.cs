@@ -1,16 +1,16 @@
-using Configs.Data;
+using Configs.Bird.Data;
 using UnityEngine;
 
-namespace Configs
+namespace Configs.Bird
 {
 	[CreateAssetMenu(menuName = "BirdConfig", order = 1)]
 	public class BirdConfig : ScriptableObject
 	{
-		public Bird BirdPrefab { get => _birdPrefab; }
+		public BirdFacade BirdPrefab { get => _birdPrefab; }
 
 		public Vector3 StartPosition { get => _startPosition; }
 
-		public SinusMovingObjectsConfig SinusMovingObjectsConfig { get => _sinusMovingConfig; }
+		public SinusMotionConfig SinusMovingObjectsConfig { get => _sinusMovingConfig; }
 
 		public float FlapForce { get => _flapForce; }
 		public Vector2 FlapOffset { get => _flapOffset; }
@@ -25,11 +25,11 @@ namespace Configs
 		public BirdAnimationData AnimationData => _animationData;
 
 		[Header("Presets")]
-		[SerializeField] private Bird _birdPrefab;
+		[SerializeField] private BirdFacade _birdPrefab;
 		[SerializeField] private Vector3 _startPosition = new(-2.5f, 0f, 0f);
 
 		[Header("Sinus Moving")]
-		[SerializeField] private SinusMovingObjectsConfig _sinusMovingConfig;
+		[SerializeField] private SinusMotionConfig _sinusMovingConfig;
 
 		[Header("Parameters")]
 		[SerializeField] private float _flapForce = 5.5f;
