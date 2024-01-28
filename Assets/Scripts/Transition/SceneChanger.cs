@@ -1,22 +1,29 @@
 using Cysharp.Threading.Tasks;
+using UI.Elements;
 using UnityEngine.SceneManagement;
+using Zenject;
 
-public class SceneChanger
+namespace Transition
 {
-	private readonly Fading _fading;
-
-	public SceneChanger(Fading fading)
+	public class SceneChanger : IInitializable
 	{
-		_fading = fading;
-	}
+		private readonly FadingScreen _fading;
 
-	public async UniTask ChangeSceneAsync(string sceneName)
-	{
-		if (SceneManager.GetSceneByName(sceneName) == null)
-			throw new System.Exception("Wrong scene name \"{sceneName}\"");
+		public SceneChanger(FadingScreen fading)
+		{
+			_fading = fading;
+		}
 
-		await _fading.FadeOut();
+		public async void Initialize()
+		{
+			await _fading.FadeIn();
+		}
 
-		SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+		public async UniTask ChangeSceneAsync(string sceneName)
+		{
+			await _fading.FadeOut();
+
+			SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+		}
 	}
 }
