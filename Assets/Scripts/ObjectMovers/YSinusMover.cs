@@ -5,7 +5,7 @@ namespace ObjectMovers
 {
 	public class YSinusMover : IObjectMover
 	{
-		private readonly Transform _obj;
+		private readonly Transform _transform;
 		private readonly SinusMotionConfig _config;
 
 		private readonly float _startY;
@@ -13,12 +13,12 @@ namespace ObjectMovers
 
 		private float _currentSinAngle = 0f;
 
-		public YSinusMover(Transform obj, SinusMotionConfig config)
+		public YSinusMover(Transform transform, SinusMotionConfig config)
 		{
-			_obj = obj;
+			_transform = transform;
 			_config = config;
 
-			_startY = _obj.position.y;
+			_startY = _transform.position.y;
 			_period = Mathf.PI * 2 / Mathf.Abs(_config.Speed);
 		}
 
@@ -29,9 +29,9 @@ namespace ObjectMovers
 			if (_currentSinAngle > _period)
 				_currentSinAngle -= _period;
 
-			Vector3 newPosition = _obj.position;
+			Vector3 newPosition = _transform.position;
 			newPosition.y = _startY + _config.YOffset * Mathf.Sin(_currentSinAngle * _config.Speed);
-			_obj.position = newPosition;
+			_transform.position = newPosition;
 		}
 	}
 }
