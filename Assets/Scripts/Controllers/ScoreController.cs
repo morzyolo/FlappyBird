@@ -1,5 +1,6 @@
 using Core.StateMachines.Game;
 using Core.StateMachines.Game.States;
+using Models;
 using System;
 using UI.Views.Game;
 
@@ -30,12 +31,15 @@ namespace Controllers
 
 		private void Enable()
 		{
-			throw new NotImplementedException();
+			_view.Show();
+			_score.Reset();
+			int score = _score.CurrentScore;
+			_view.SetScore(score);
 		}
 
 		private void Disable()
 		{
-			throw new NotImplementedException();
+			_view.Hide();
 		}
 
 	}
