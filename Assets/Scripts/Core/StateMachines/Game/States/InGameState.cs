@@ -1,18 +1,28 @@
+using System;
+using Bird;
+
 namespace Core.StateMachines.Game.States
 {
-	public sealed class InGameState : State
+	public sealed class InGameState : State, IDisposable
 	{
-		private State _nextState;
+		private readonly BirdFacade _bird;
 
-		public InGameState(StateMachine stateMachine)
-			: base(stateMachine) { }
-
-		public override void SetNextState()
-			=> _nextState = StateMachine.ResolveState<EndGameState>();
-
-		public override void GoToNext()
+		public InGameState(BirdFacade bird)
 		{
-			StateMachine.ChangeState(this, _nextState);
+			_bird = bird;
+
+			_bird.Collided += GoToNext;
+		}
+
+		public void Dispose()
+		{
+			_bird.Collided -= GoToNext;
+		}
+
+		private void GoToNext()
+		{
+			State nextState = StateMachine.ResolveState<EndGameState>();
+			StateMachine.ChangeState(this, nextState);
 		}
 	}
 }
