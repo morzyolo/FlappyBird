@@ -7,15 +7,12 @@ namespace Core.StateMachines.Game.States
 		public event Action OnEntered;
 		public event Action OnExited;
 
-		protected readonly StateMachine StateMachine;
+		protected StateMachine StateMachine;
 
-		protected State(StateMachine stateMachine)
+		public void SetStateMachine(StateMachine stateMachine)
 		{
 			StateMachine = stateMachine;
 		}
-
-		public abstract void SetNextState();
-		public abstract void GoToNext();
 
 		public void Enter()
 		{
