@@ -1,18 +1,28 @@
+using System;
+using UI.Views.Game;
+
 namespace Core.StateMachines.Game.States
 {
-	public sealed class StartGameState : State
+	public sealed class StartGameState : State, IDisposable
 	{
-		private State _nextState;
+		private readonly StartGameView _startView;
 
-		public StartGameState(StateMachine stateMachine)
-			: base(stateMachine) { }
-
-		public override void SetNextState()
-			=> _nextState = StateMachine.ResolveState<InGameState>();
-
-		public override void GoToNext()
+		public StartGameState(StartGameView startView)
 		{
-			StateMachine.ChangeState(this, _nextState);
+			_startView = startView;
+
+			startView.PlayButtonPressed += GoToNext;
+		}
+
+		public void Dispose()
+		{
+			_startView.PlayButtonPressed -= GoToNext;
+		}
+
+		private void GoToNext()
+		{
+			State nextState = StateMachine.ResolveState<InGameState>();
+			StateMachine.ChangeState(this, nextState);
 		}
 	}
 }
