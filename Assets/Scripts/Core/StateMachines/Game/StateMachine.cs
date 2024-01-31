@@ -1,32 +1,35 @@
-using Core.StateMachines.Game.States;
 using System;
 using System.Collections.Generic;
+using Core.StateMachines.Game.States;
+using Zenject;
 
 namespace Core.StateMachines.Game
 {
-	public class StateMachine
+	public class StateMachine : IInitializable
 	{
 		private readonly Dictionary<Type, State> _states;
 
 		private State _currentState;
 
-		public StateMachine()
+		public StateMachine(
+			StartGameState startState,
+			InGameState inState,
+			EndGameState endState)
 		{
 			_states = new()
 			{
-				{ typeof(StartGameState), new StartGameState(this) },
-				{ typeof(InGameState), new InGameState(this) },
-				{ typeof(EndGameState), new EndGameState(this) }
+				{ typeof(StartGameState), startState },
+				{ typeof(InGameState), inState },
+				{ typeof(EndGameState), endState }
 			};
 
 			foreach (var state in _states.Values)
-				state.SetNextState();
-
-			_currentState = _states[typeof(StartGameState)];
+				state.SetStateMachine(this);
 		}
 
-		public void Init()
+		public void Initialize()
 		{
+			_currentState = ResolveState<StartGameState>();
 			_currentState.Enter();
 		}
 
@@ -41,7 +44,10 @@ namespace Core.StateMachines.Game
 
 		public void ChangeState(State currentState, State nextState)
 		{
-			currentState.Exit();
+			if (!ReferenceEquals(_currentState, currentState))
+				return;
+
+			_currentState.Exit();
 			_currentState = nextState;
 			_currentState.Enter();
 		}
