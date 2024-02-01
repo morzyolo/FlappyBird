@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using MovingObjects.ObstacleComponents;
+using UnityEngine;
 
-namespace Configs.Horizontal
+namespace Configs.Motion
 {
 	[CreateAssetMenu(menuName = "MotionConfig/Horizontal", order = 2)]
 	public class HorizontalMotionConfig : ScriptableObject
 	{
-		public MovingObject Prefab { get => _prefab; }
+		public Obstacle Prefab { get => _prefab; }
 
 		public int ObjectsCount { get => _objectsCount; }
 
@@ -18,7 +19,7 @@ namespace Configs.Horizontal
 		public float MaxHeight { get => _maxHeight; }
 		public float MinHeight { get => _minHeight; }
 
-		[SerializeField] private MovingObject _prefab;
+		[SerializeField] private Obstacle _prefab;
 
 		[SerializeField] private int _objectsCount = 4;
 		[SerializeField] private float _moveSpeed = 1f;

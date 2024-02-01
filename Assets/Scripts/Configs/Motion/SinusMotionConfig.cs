@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Configs.Motion.Sinus
+namespace Configs.Motion
 {
 	[CreateAssetMenu(menuName = "MovingObjectsConfig/Sinus", order = 2)]
 	public class SinusMotionConfig : ScriptableObject

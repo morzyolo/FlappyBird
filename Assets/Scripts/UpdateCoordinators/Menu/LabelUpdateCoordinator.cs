@@ -1,5 +1,5 @@
 using System;
-using Configs.Motion.Sinus;
+using Configs.Motion;
 using Core;
 using ObjectMovers;
 using UnityEngine;
@@ -18,7 +18,7 @@ namespace UpdateCoordinators.Menu
 			SinusMotionConfig config)
 		{
 			_updater = updater;
-			_mover = new (transform, config);
+			_mover = new(transform, config);
 		}
 
 		public void Initialize()

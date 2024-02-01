@@ -1,4 +1,4 @@
-using Configs.Motion.Sinus;
+using Configs.Motion;
 using UnityEngine;
 
 namespace ObjectMovers

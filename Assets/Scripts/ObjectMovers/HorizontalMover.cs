@@ -1,20 +1,20 @@
-using Configs.Horizontal;
+using System.Collections.Generic;
+using Configs.Motion;
 using HeightDeterminers;
 using MovingObjects;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ObjectMovers
 {
-	public abstract class HorizontalMover : IObjectMover
+	public class HorizontalMover<Object> : IObjectMover where Object : IMovingObject
 	{
 		private readonly IHeightDeterminer _heightDeterminer;
-		private readonly List<IMovingObject> _objects;
+		private readonly List<Object> _objects;
 		private readonly HorizontalMotionConfig _config;
 
 		public HorizontalMover(
 			IHeightDeterminer heightDeterminer,
-			List<IMovingObject> objects,
+			List<Object> objects,
 			HorizontalMotionConfig config)
 		{
 			_heightDeterminer = heightDeterminer;

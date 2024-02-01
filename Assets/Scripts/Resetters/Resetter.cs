@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Configs.Horizontal;
+using Configs.Motion;
 using HeightDeterminers;
 using MovingObjects;
 using UnityEngine;

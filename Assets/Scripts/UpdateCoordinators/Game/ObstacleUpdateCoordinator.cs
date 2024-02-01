@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Configs.Horizontal;
+using Configs.Motion;
 using Core;
 using Core.StateMachines.Game;
 using Core.StateMachines.Game.States;
