@@ -1,25 +1,36 @@
+using System.Collections.Generic;
 using Configs.Horizontal;
 using HeightDeterminers;
 using MovingObjects;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Resetters
 {
-	public class Resetter
+	public class Resetter<Object> where Object : IMovingObject
 	{
-		public void Reset(
-			List<IMovingObject> objects,
+		private readonly List<Object> _objects;
+		private readonly HorizontalMotionConfig _config;
+		private readonly IHeightDeterminer _heightDeterminer;
+
+		public Resetter(
+			List<Object> objects,
 			HorizontalMotionConfig config,
 			IHeightDeterminer heightDeterminer)
 		{
-			var spawnPosition = new Vector3(config.StartX, 0f, 0f);
+			_config = config;
+			_objects = objects;
+			_heightDeterminer = heightDeterminer;
+		}
 
-			for (int i = 0; i < objects.Count; i++)
+		public void Reset()
+		{
+			var spawnPosition = new Vector3(_config.StartX, 0f, 0f);
+
+			for (int i = 0; i < _objects.Count; i++)
 			{
-				spawnPosition.y = heightDeterminer.Height;
-				objects[i].SetPosition(spawnPosition);
-				spawnPosition.x += config.XOffset;
+				spawnPosition.y = _heightDeterminer.Height;
+				_objects[i].SetPosition(spawnPosition);
+				spawnPosition.x += _config.XOffset;
 			}
 		}
 	}
