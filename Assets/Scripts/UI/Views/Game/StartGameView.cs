@@ -18,7 +18,7 @@ namespace UI.Views.Game
 
 		private void SetActive(bool isActive)
 		{
-			gameObject.SetActive(false);
+			gameObject.SetActive(isActive);
 			_startButton.SetActive(isActive);
 
 			for (int i = 0; i < _images.Length; i++)
