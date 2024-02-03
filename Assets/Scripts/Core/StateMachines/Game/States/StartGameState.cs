@@ -11,7 +11,7 @@ namespace Core.StateMachines.Game.States
 		{
 			_startView = startView;
 
-			startView.PlayButtonPressed += GoToNext;
+			_startView.PlayButtonPressed += GoToNext;
 		}
 
 		public void Dispose()
