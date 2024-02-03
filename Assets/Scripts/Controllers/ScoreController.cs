@@ -41,6 +41,5 @@ namespace Controllers
 		{
 			_view.Hide();
 		}
-
 	}
 }
