@@ -1,18 +1,28 @@
+using System;
+using UI.Views.Game;
+
 namespace Core.StateMachines.Game.States
 {
-	public sealed class EndGameState : State
+	public sealed class EndGameState : State, IDisposable
 	{
-		private State _nextState;
+		private readonly EndGameView _endView;
 
-		public EndGameState(StateMachine stateMachine)
-			: base(stateMachine) { }
-
-		public override void SetNextState()
-			=> _nextState = StateMachine.ResolveState<StartGameState>();
-
-		public override void GoToNext()
+		public EndGameState(EndGameView endView)
 		{
-			StateMachine.ChangeState(this, _nextState);
+			_endView = endView;
+
+			_endView.OnRestartButtonPressed += GoToNext;
+		}
+
+		public void Dispose()
+		{
+			_endView.OnRestartButtonPressed -= GoToNext;
+		}
+
+		private void GoToNext()
+		{
+			State nextState = StateMachine.ResolveState<StartGameState>();
+			StateMachine.ChangeState(this, nextState);
 		}
 	}
 }
