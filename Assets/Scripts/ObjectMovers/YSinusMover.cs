@@ -24,13 +24,13 @@ namespace ObjectMovers
 
 		public void Tick(float deltaTime)
 		{
-			_currentSinAngle += deltaTime;
+			_currentSinAngle += deltaTime * _config.Speed;
 
 			if (_currentSinAngle > _period)
 				_currentSinAngle -= _period;
 
 			Vector3 newPosition = _transform.position;
-			newPosition.y = _startY + _config.YOffset * Mathf.Sin(_currentSinAngle * _config.Speed);
+			newPosition.y = _startY + _config.YOffset * Mathf.Sin(_currentSinAngle);
 			_transform.position = newPosition;
 		}
 	}
