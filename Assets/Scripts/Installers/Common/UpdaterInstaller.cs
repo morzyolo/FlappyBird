@@ -7,11 +7,6 @@ namespace Installers.Common
 	{
 		public override void InstallBindings()
 		{
-			BindUpdater();
-		}
-
-		private void BindUpdater()
-		{
 			Container
 				.BindInterfacesAndSelfTo<Updater>()
 				.AsSingle();
