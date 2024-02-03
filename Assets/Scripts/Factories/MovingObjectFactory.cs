@@ -1,5 +1,6 @@
-using Configs.Horizontal;
 using System.Collections.Generic;
+using Configs.Motion;
+using MovingObjects;
 using UnityEngine;
 
 namespace Factories
@@ -13,13 +14,13 @@ namespace Factories
 			_config = config;
 		}
 
-		public List<MovingObject> Create(Transform parent)
+		public List<T> Create<T>(Transform parent) where T : MonoBehaviour, IMovingObject
 		{
-			var obstacles = new List<MovingObject>(_config.ObjectsCount);
+			var obstacles = new List<T>(_config.ObjectsCount);
 
 			for (int i = 0; i < _config.ObjectsCount; i++)
 			{
-				var obstacle = Object.Instantiate(_config.Prefab, parent).GetComponent<MovingObject>();
+				T obstacle = Object.Instantiate(_config.Prefab, parent).GetComponent<T>();
 				obstacles.Add(obstacle);
 			}
 
