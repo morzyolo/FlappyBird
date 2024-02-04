@@ -8,6 +8,8 @@ namespace UI.Elements
 	[RequireComponent(typeof(RectTransform))]
 	public class EndGamePanel : MonoBehaviour
 	{
+		[SerializeField] private RectTransform _rect;
+
 		[SerializeField] private Vector3 _hiddenPosition;
 		[SerializeField] private Vector3 _shownPosition;
 		[SerializeField] private float _showDuration = 1f;
@@ -17,13 +19,6 @@ namespace UI.Elements
 
 		[SerializeField] private TMP_Text _bestScore;
 		[SerializeField] private RectTransform _newBestScoreLabel;
-
-		private RectTransform _rect;
-
-		private void Awake()
-		{
-			_rect = GetComponent<RectTransform>();
-		}
 
 		public async UniTask Show(int currentScore, int bestScore)
 		{
