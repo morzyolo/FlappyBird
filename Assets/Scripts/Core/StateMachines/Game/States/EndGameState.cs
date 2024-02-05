@@ -1,16 +1,20 @@
 using System;
 using UI.Views.Game;
+using Zenject;
 
 namespace Core.StateMachines.Game.States
 {
-	public sealed class EndGameState : State, IDisposable
+	public sealed class EndGameState : State, IInitializable, IDisposable
 	{
 		private readonly EndGameView _endView;
 
 		public EndGameState(EndGameView endView)
 		{
 			_endView = endView;
+		}
 
+		public void Initialize()
+		{
 			_endView.OnRestartButtonPressed += GoToNext;
 		}
 
