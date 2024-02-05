@@ -13,7 +13,7 @@ namespace Input
 		private readonly InputPanel _inputPanel;
 		private readonly State _state;
 
-		private bool _isEnable = false;
+		private bool _isEnable;
 
 		public PlayerInput(BirdFacade bird, InputPanel inputPanel, StateMachine stateMachine)
 		{
@@ -28,6 +28,7 @@ namespace Input
 		public void Initialize()
 		{
 			_inputPanel.Clicked += FlapIfEnable;
+			SetIsEnable(false);
 		}
 
 		public void Dispose()
@@ -44,6 +45,7 @@ namespace Input
 		private void SetIsEnable(bool isEnable)
 		{
 			_isEnable = isEnable;
+			_inputPanel.IsEnable(isEnable);
 		}
 
 		public void FlapIfEnable()
