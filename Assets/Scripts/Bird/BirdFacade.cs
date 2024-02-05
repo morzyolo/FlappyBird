@@ -1,11 +1,11 @@
-using Bird.Components;
 using System;
+using Bird.Components;
 using UnityEngine;
 using Zenject;
 
 namespace Bird
 {
-	public class BirdFacade : MonoBehaviour
+	public class BirdFacade : MonoBehaviour, IInitializable, IDisposable
 	{
 		public event Action ObstaclePassed
 		{
@@ -19,18 +19,18 @@ namespace Bird
 			remove => _crossingDetector.Collided -= value;
 		}
 
-		private BirdFlapping _flapping;
-		private BirdAnimator _animator;
 		private BirdCrossingDetector _crossingDetector;
 
-		[Inject]
+		private BirdFlapping _flapping;
+		private BirdAnimator _animator;
+
 		public void Construct(
-			BirdFlapping birdFlapping,
 			BirdAnimator animator,
+			BirdFlapping birdFlapping,
 			BirdCrossingDetector crossingDetector)
 		{
-			_flapping = birdFlapping;
 			_animator = animator;
+			_flapping = birdFlapping;
 			_crossingDetector = crossingDetector;
 		}
 
@@ -50,19 +50,22 @@ namespace Bird
 
 		public void MakeNonPhysical() => _flapping.SetBodyType(RigidbodyType2D.Kinematic);
 
-		private void StopAnimator()
-		{
-			_animator.StopFlapping();
-		}
-
-		private void OnEnable()
+		public void Initialize()
 		{
 			Collided += StopAnimator;
 		}
 
-		private void OnDisable()
+		public void Dispose()
 		{
 			Collided -= StopAnimator;
+
+			_flapping.Dispose();
+			_animator.Dispose();
+		}
+
+		private void StopAnimator()
+		{
+			_animator.StopFlapping();
 		}
 	}
 }
