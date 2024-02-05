@@ -1,5 +1,5 @@
-using Configs.Bird;
 using System;
+using Configs.Bird;
 using UnityEngine;
 using Zenject;
 
