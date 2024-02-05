@@ -1,8 +1,8 @@
+using System;
+using System.Threading;
 using Configs.Bird.Data;
 using Cysharp.Threading.Tasks;
 using SpriteChangers;
-using System;
-using System.Threading;
 using UnityEngine;
 using Zenject;
 
@@ -24,7 +24,9 @@ namespace Bird.Components
 
 		public void Initialize()
 		{
-			CancelTokenSource();
+			if (_flapAnimationTokenSource != null)
+				CancelTokenSource();
+
 			StartFlapping();
 		}
 
@@ -39,11 +41,8 @@ namespace Bird.Components
 
 		public void StopFlapping()
 		{
-			if (!_flapAnimationTask.Status.IsCompleted())
-			{
-				CancelTokenSource();
-				_spriteChanger.ChangeSprite(_animationData.DefaultFrame);
-			}
+			CancelTokenSource();
+			_spriteChanger.ChangeSprite(_animationData.DefaultFrame);
 		}
 
 		public void Dispose()
@@ -61,18 +60,25 @@ namespace Bird.Components
 			{
 				for (int i = 0; i < framesCount; i++)
 				{
+					_spriteChanger.ChangeSprite(animationFrames[i]);
 					await UniTask.Delay(
 						_animationData.FrameDelayMs,
 						cancellationToken: _flapAnimationTokenSource.Token);
-					_spriteChanger.ChangeSprite(animationFrames[i]);
+
+					if (_flapAnimationTokenSource.IsCancellationRequested)
+						return;
 				}
 			}
 		}
 
 		private void CancelTokenSource()
 		{
-			_flapAnimationTokenSource?.Cancel();
-			_flapAnimationTokenSource?.Dispose();
+			if (_flapAnimationTokenSource != null
+				&& !_flapAnimationTokenSource.IsCancellationRequested)
+			{
+				_flapAnimationTokenSource.Cancel();
+				_flapAnimationTokenSource.Dispose();
+			}
 		}
 	}
 }

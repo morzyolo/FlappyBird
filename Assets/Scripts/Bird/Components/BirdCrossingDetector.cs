@@ -1,6 +1,6 @@
+using System;
 using MovingObjects;
 using MovingObjects.ObstacleComponents;
-using System;
 using UnityEngine;
 
 namespace Bird.Components

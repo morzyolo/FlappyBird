@@ -1,7 +1,7 @@
-using Configs.Bird;
-using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
+using Configs.Bird;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Bird.Components
@@ -15,7 +15,6 @@ namespace Bird.Components
 		private readonly BirdConfig _config;
 		private readonly BirdTurn _birdTurn;
 
-		private UniTask _flapTask;
 		private CancellationTokenSource _cancellationSource;
 
 		public BirdFlapping(
@@ -36,15 +35,12 @@ namespace Bird.Components
 
 			_cancellationSource = new CancellationTokenSource();
 
-			_flapTask = FlapTask();
+			FlapTask(_cancellationSource.Token).Forget();
 		}
 
 		public void Reset()
 		{
 			_rigidbody.velocity = Vector2.zero;
-
-			if (_flapTask.Status.IsCompleted())
-				_cancellationSource.Cancel();
 		}
 
 		public void SetBodyType(RigidbodyType2D type) => _rigidbody.bodyType = type;
@@ -54,7 +50,7 @@ namespace Bird.Components
 			DisposeCancellationSource();
 		}
 
-		private async UniTask FlapTask()
+		private async UniTask FlapTask(CancellationToken cancellationToken)
 		{
 			Vector3 flapPosition = _transform.position;
 			flapPosition.x += _config.FlapOffset.x;
@@ -67,16 +63,26 @@ namespace Bird.Components
 
 			do
 			{
-				await UniTask.Yield(PlayerLoopTiming.Update, _cancellationSource.Token);
+				await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
+
+				if (cancellationToken.IsCancellationRequested)
+				{
+					Debug.Log("Canceled");
+					return;
+				}
+
 				_birdTurn.UpdateRotation();
 			}
-			while (_birdTurn.IsRotationRequired && !_cancellationSource.IsCancellationRequested);
+			while (_birdTurn.IsRotationRequired);
 		}
 
 		private void DisposeCancellationSource()
 		{
-			_cancellationSource?.Cancel();
-			_cancellationSource?.Dispose();
+			if (_cancellationSource != null)
+			{
+				_cancellationSource.Cancel();
+				_cancellationSource.Dispose();
+			}
 		}
 	}
 }

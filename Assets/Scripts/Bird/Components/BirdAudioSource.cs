@@ -38,7 +38,7 @@ namespace Bird.Components
 			_crossingDetector.ObstaclePassed -= PlayPassClip;
 		}
 
-		private void PlayCollisionSound() => PlayClip(_config.CollisionedClip);
+		private void PlayCollisionSound() => PlayClip(_config.CollidedClip);
 
 		private void PlayFlapSound() => PlayClip(_config.FlappedClip);
 
