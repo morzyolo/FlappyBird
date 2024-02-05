@@ -48,7 +48,8 @@ namespace UI.Elements
 			await DOTween
 				.To(() => changeableScore, value => changeableScore = value, currentScore, _increaseDuration)
 				.OnUpdate(() => _currentScore.text = changeableScore.ToString())
-				.SetEase(Ease.InOutSine).ToUniTask();
+				.SetEase(Ease.InOutSine)
+				.ToUniTask();
 		}
 
 		private void ShowNewBestScoreLabel(int bestScore)
