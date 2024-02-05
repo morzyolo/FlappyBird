@@ -1,9 +1,10 @@
 using Bird;
 using System;
+using Zenject;
 
 namespace Models
 {
-	public sealed class Score : IDisposable
+	public sealed class Score : IInitializable, IDisposable
 	{
 		public event Action<int> OnValueChanged;
 
@@ -15,8 +16,6 @@ namespace Models
 		public Score(BirdFacade bird)
 		{
 			_bird = bird;
-
-			_bird.ObstaclePassed += AddScore;
 		}
 
 		public void AddScore()
@@ -28,6 +27,11 @@ namespace Models
 		public void Reset()
 		{
 			_currentScore = 0;
+		}
+
+		public void Initialize()
+		{
+			_bird.ObstaclePassed += AddScore;
 		}
 
 		public void Dispose()
