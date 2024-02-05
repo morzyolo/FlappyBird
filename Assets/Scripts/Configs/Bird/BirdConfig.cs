@@ -1,5 +1,6 @@
+using Bird;
 using Configs.Bird.Data;
-using Configs.Motion.Sinus;
+using Configs.Motion;
 using UnityEngine;
 
 namespace Configs.Bird
@@ -11,7 +12,7 @@ namespace Configs.Bird
 
 		public Vector3 StartPosition { get => _startPosition; }
 
-		public SinusMotionConfig SinusMovingObjectsConfig { get => _sinusMovingConfig; }
+		public SinusMotionConfig SinusMotion { get => _sinusMotion; }
 
 		public float FlapForce { get => _flapForce; }
 		public Vector2 FlapOffset { get => _flapOffset; }
@@ -19,7 +20,7 @@ namespace Configs.Bird
 		public float MaxRotationAngle { get => _maxRotationAngle; }
 		public float MinRotationAngle { get => _minRotationAngle; }
 
-		public AudioClip CollisionedClip { get => _collisionedClip; }
+		public AudioClip CollidedClip { get => _collisionedClip; }
 		public AudioClip FlappedClip { get => _flappedClip; }
 		public AudioClip PassedClip { get => _passedClip; }
 
@@ -30,7 +31,7 @@ namespace Configs.Bird
 		[SerializeField] private Vector3 _startPosition = new(-2.5f, 0f, 0f);
 
 		[Header("Sinus Moving")]
-		[SerializeField] private SinusMotionConfig _sinusMovingConfig;
+		[SerializeField] private SinusMotionConfig _sinusMotion;
 
 		[Header("Parameters")]
 		[SerializeField] private float _flapForce = 5.5f;
