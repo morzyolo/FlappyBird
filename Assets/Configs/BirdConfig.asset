@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _birdPrefab: {fileID: 1451808776322437320, guid: 2772c995281be834a99004d4f2c66b45, type: 3}
   _startPosition: {x: -2.5, y: 0, z: 0}
-  _sinusMovingConfig: {fileID: 11400000, guid: bdd273664a0ef234786d79389da24411, type: 2}
+  _sinusMotion: {fileID: 11400000, guid: bdd273664a0ef234786d79389da24411, type: 2}
   _flapForce: 5.5
   _flapOffset: {x: -0.4, y: -0.4}
   _maxRotationAngle: 50
