@@ -1,17 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
-public class Updater : MonoBehaviour
+namespace Core
 {
-	private readonly List<IUpdateListener> _updateListeners = new();
-
-	private void Update()
+	public class Updater : ITickable
 	{
-		foreach (var listener in _updateListeners)
-			listener.Tick(Time.deltaTime);
+		private readonly List<IUpdateListener> _updateListeners = new();
+
+		public void Tick()
+		{
+			foreach (var listener in _updateListeners)
+				listener.Tick(Time.deltaTime);
+		}
+
+		public void AddListener(IUpdateListener listener) => _updateListeners.Add(listener);
+
+		public void RemoveListener(IUpdateListener listener) => _updateListeners.Remove(listener);
 	}
-
-	public void AddListener(IUpdateListener listener) => _updateListeners.Add(listener);
-
-	public void RemoveListener(IUpdateListener listener) => _updateListeners.Remove(listener);
 }

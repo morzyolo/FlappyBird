@@ -1,4 +1,7 @@
-﻿public interface IUpdateListener
+﻿namespace Core
 {
-	public void Tick(float deltaTime);
+	public interface IUpdateListener
+	{
+		public void Tick(float deltaTime);
+	}
 }

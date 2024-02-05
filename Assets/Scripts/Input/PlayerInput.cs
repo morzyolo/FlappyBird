@@ -1,31 +1,57 @@
 using System;
+using Bird;
+using Core.StateMachines.Game;
+using Core.StateMachines.Game.States;
+using UI.Elements;
+using Zenject;
 
-public class PlayerInput : IDisposable
+namespace Input
 {
-	private readonly Bird _bird;
-	private readonly InputPanel _inputPanel;
-	private readonly GameEventNotifier _notifier;
-
-	public PlayerInput(Bird bird, InputPanel inputPanel, GameEventNotifier notifier)
+	public sealed class PlayerInput : IInitializable, IDisposable
 	{
-		_bird = bird;
-		_inputPanel = inputPanel;
-		_notifier = notifier;
+		private readonly BirdFacade _bird;
+		private readonly InputPanel _inputPanel;
+		private readonly State _state;
 
-		_notifier.GameStarted += StartAcceptingInput;
-		_notifier.GameOvered += StopAcceptingInput;
-		_notifier.AddDisposable(this);
+		private bool _isEnable;
+
+		public PlayerInput(BirdFacade bird, InputPanel inputPanel, StateMachine stateMachine)
+		{
+			_bird = bird;
+			_inputPanel = inputPanel;
+
+			_state = stateMachine.ResolveState<InGameState>();
+			_state.OnEntered += Enable;
+			_state.OnExited += Disable;
+		}
+
+		public void Initialize()
+		{
+			_inputPanel.Clicked += FlapIfEnable;
+			SetIsEnable(false);
+		}
+
+		public void Dispose()
+		{
+			_inputPanel.Clicked -= FlapIfEnable;
+			_state.OnEntered -= Enable;
+			_state.OnExited -= Disable;
+		}
+
+		public void Enable() => SetIsEnable(true);
+
+		public void Disable() => SetIsEnable(false);
+
+		private void SetIsEnable(bool isEnable)
+		{
+			_isEnable = isEnable;
+			_inputPanel.IsEnable(isEnable);
+		}
+
+		public void FlapIfEnable()
+		{
+			if (_isEnable)
+				_bird.Flap();
+		}
 	}
-
-	public void Dispose()
-	{
-		_notifier.GameStarted -= StartAcceptingInput;
-		_notifier.GameOvered -= StopAcceptingInput;
-	}
-
-	private void Flap() => _bird.Flap();
-
-	private void StartAcceptingInput() => _inputPanel.Clicked += Flap;
-
-	private void StopAcceptingInput() => _inputPanel.Clicked -= Flap;
 }
