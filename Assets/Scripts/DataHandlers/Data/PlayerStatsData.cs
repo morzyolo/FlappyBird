@@ -1,5 +1,8 @@
-[System.Serializable]
-public struct PlayerStatsData
+namespace DataHandlers.Handlers
 {
-	public int MaxScore;
+	[System.Serializable]
+	public struct PlayerStatsData
+	{
+		public int MaxScore;
+	}
 }
