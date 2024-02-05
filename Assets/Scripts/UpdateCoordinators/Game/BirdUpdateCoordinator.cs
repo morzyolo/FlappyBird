@@ -47,6 +47,7 @@ namespace UpdateCoordinators.Game
 		private void Disable()
 		{
 			_bird.MakePhysical();
+			_bird.Flap();
 			_updater.RemoveListener(_mover);
 		}
 	}
