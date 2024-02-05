@@ -1,5 +1,7 @@
-using Bird;
 using System;
+using Bird;
+using Core.StateMachines.Game;
+using Core.StateMachines.Game.States;
 using UI.Elements;
 using Zenject;
 
@@ -9,13 +11,18 @@ namespace Input
 	{
 		private readonly BirdFacade _bird;
 		private readonly InputPanel _inputPanel;
+		private readonly State _state;
 
-		private bool _isEnable;
+		private bool _isEnable = false;
 
-		public PlayerInput(BirdFacade bird, InputPanel inputPanel)
+		public PlayerInput(BirdFacade bird, InputPanel inputPanel, StateMachine stateMachine)
 		{
 			_bird = bird;
 			_inputPanel = inputPanel;
+
+			_state = stateMachine.ResolveState<InGameState>();
+			_state.OnEntered += Enable;
+			_state.OnExited += Disable;
 		}
 
 		public void Initialize()
@@ -26,6 +33,8 @@ namespace Input
 		public void Dispose()
 		{
 			_inputPanel.Clicked -= FlapIfEnable;
+			_state.OnEntered -= Enable;
+			_state.OnExited -= Disable;
 		}
 
 		public void Enable() => SetIsEnable(true);
