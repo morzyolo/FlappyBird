@@ -3,7 +3,7 @@ using UnityEngine;
 namespace MovingObjects.ObstacleComponents
 {
 	[RequireComponent(typeof(Collider2D), typeof(SpriteRenderer))]
-	public class Pipe : MonoBehaviour, IReactOnCollision
+	public class Pipe : MonoBehaviour, ICanKill, IReactOnCollision
 	{
 		private Collider2D _collider;
 		private SpriteRenderer _spriteRenderer;
