@@ -1,6 +1,6 @@
 using Configs.Fade;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
+using DG.Tweening;
 
 namespace UI.Elements
 {
@@ -15,24 +15,21 @@ namespace UI.Elements
 			_config = config;
 		}
 
-		public async UniTask FadeIn() => await Fade(1f, 0f);
+		public async UniTask FadeIn() => await Fade(1f, 0f, false);
 
-		public async UniTask FadeOut() => await Fade(0f, 1f);
+		public async UniTask FadeOut() => await Fade(0f, 1f, true);
 
-		private async UniTask Fade(float startAlpha, float endAlpha)
+		private async UniTask Fade(float startAlpha, float endAlpha, bool isBlock)
 		{
+			_fadeImage.IsBlockInput(isBlock);
 			_fadeImage.SetAlpha(startAlpha);
-			float time = 0f;
 
-			while (time < _config.FadeDuration)
-			{
-				time += Time.deltaTime;
+			float currentAlpha = startAlpha;
 
-				float alpha = Mathf.Lerp(startAlpha, endAlpha, time / _config.FadeDuration);
-				_fadeImage.SetAlpha(alpha);
-
-				await UniTask.Yield(PlayerLoopTiming.Update);
-			}
+			await DOTween.To(() => currentAlpha, value => currentAlpha = value, endAlpha, _config.FadeDuration)
+				.OnUpdate(() => _fadeImage.SetAlpha(currentAlpha))
+				.SetEase(Ease.InOutSine)
+				.ToUniTask();
 
 			_fadeImage.SetAlpha(endAlpha);
 		}
