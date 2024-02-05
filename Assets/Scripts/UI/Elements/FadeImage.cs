@@ -16,5 +16,10 @@ namespace UI.Elements
 			currentColor.a = alpha;
 			_image.color = currentColor;
 		}
+
+		public void IsBlockInput(bool isBlock)
+		{
+			_image.raycastTarget = isBlock;
+		}
 	}
 }
