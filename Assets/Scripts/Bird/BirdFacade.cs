@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Bird
 {
-	public class BirdFacade : MonoBehaviour, IInitializable, IDisposable
+	public sealed class BirdFacade : MonoBehaviour, IInitializable, IDisposable
 	{
 		public event Action ObstaclePassed
 		{
