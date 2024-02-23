@@ -31,12 +31,14 @@ namespace Models
 
 		public void Initialize()
 		{
-			_bird.ObstaclePassed += AddScore;
+			_bird.ObstaclePassed
+				.Subscribe(_ => AddScore())
+				.AddTo(_disposables);
 		}
 
 		public void Dispose()
 		{
-			_bird.ObstaclePassed -= AddScore;
+			_disposables.Dispose();
 		}
 	}
 }

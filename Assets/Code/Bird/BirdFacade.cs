@@ -1,5 +1,6 @@
 using System;
 using Bird.Components;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -7,17 +8,10 @@ namespace Bird
 {
 	public sealed class BirdFacade : MonoBehaviour, IInitializable, IDisposable
 	{
-		public event Action ObstaclePassed
-		{
-			add => _crossingDetector.ObstaclePassed += value;
-			remove => _crossingDetector.ObstaclePassed -= value;
-		}
+		public ReactiveCommand ObstaclePassed => _crossingDetector.ObstaclePassed;
+		public ReactiveCommand Collided => _crossingDetector.Collided;
 
-		public event Action Collided
-		{
-			add => _crossingDetector.Collided += value;
-			remove => _crossingDetector.Collided -= value;
-		}
+		private readonly CompositeDisposable _disposable = new();
 
 		private BirdCrossingDetector _crossingDetector;
 
@@ -27,7 +21,8 @@ namespace Bird
 		public void Construct(
 			BirdAnimator animator,
 			BirdFlapping birdFlapping,
-			BirdCrossingDetector crossingDetector)
+			BirdCrossingDetector crossingDetector
+		)
 		{
 			_animator = animator;
 			_flapping = birdFlapping;
@@ -52,12 +47,14 @@ namespace Bird
 
 		public void Initialize()
 		{
-			Collided += StopAnimator;
+			Collided
+				.Subscribe(_ => StopAnimator())
+				.AddTo(_disposable);
 		}
 
 		public void Dispose()
 		{
-			Collided -= StopAnimator;
+			_disposable.Dispose();
 
 			_flapping.Dispose();
 			_animator.Dispose();

@@ -1,5 +1,6 @@
 using System;
 using Configs.Bird;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -28,17 +29,21 @@ namespace Bird.Components
 
 		public void Initialize()
 		{
-			_crossingDetector.Collided += PlayCollisionSound;
-			_crossingDetector.ObstaclePassed += PlayPassClip;
+			_crossingDetector.Collided
+				.Subscribe(_ => PlayCollisionSound())
+				.AddTo(_disposables);
+
 			_birdFlapping.Flapped
 				.Subscribe(_ => PlayFlapSound())
+				.AddTo(_disposables);
+
+			_crossingDetector.ObstaclePassed
+				.Subscribe(_ => PlayPassClip())
 				.AddTo(_disposables);
 		}
 
 		public void Dispose()
 		{
-			_crossingDetector.Collided -= PlayCollisionSound;
-			_crossingDetector.ObstaclePassed -= PlayPassClip;
 			_disposables.Dispose();
 		}
 

@@ -1,19 +1,19 @@
-using System;
 using MovingObjects;
 using MovingObjects.ObstacleComponents;
+using UniRx;
 using UnityEngine;
 
 namespace Bird.Components
 {
 	public class BirdCrossingDetector : MonoBehaviour
 	{
-		public event Action ObstaclePassed;
-		public event Action Collided;
+		public ReactiveCommand ObstaclePassed { get; } = new();
+		public ReactiveCommand Collided { get; } = new();
 
 		private void OnTriggerEnter2D(Collider2D collision)
 		{
 			if (collision.TryGetComponent<PassTrigger>(out var _))
-				ObstaclePassed?.Invoke();
+				ObstaclePassed.Execute();
 		}
 
 		private void OnCollisionEnter2D(Collision2D collision)
@@ -23,7 +23,7 @@ namespace Bird.Components
 				if (collision.transform.TryGetComponent<IReactOnCollision>(out var component))
 					component.OnCollision();
 
-				Collided?.Invoke();
+				Collided.Execute();
 			}
 		}
 	}
