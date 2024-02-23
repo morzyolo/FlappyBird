@@ -18,5 +18,5 @@ MonoBehaviour:
   _startX: 8
   _endX: -6
   _xOffset: 6
-  _maxHeight: 5.25
-  _minHeight: -4.75
+  _maxHeight: 5.2
+  _minHeight: -3.7
