@@ -32,8 +32,9 @@ namespace Installers.Common
 		private void BindSceneChanger()
 		{
 			Container
-				.BindInterfacesAndSelfTo<SceneChanger>()
-				.AsSingle();
+				.Bind<SceneChanger>()
+				.AsSingle()
+				.NonLazy();
 		}
 	}
 }

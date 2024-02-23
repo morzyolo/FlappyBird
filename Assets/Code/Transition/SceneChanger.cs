@@ -1,11 +1,10 @@
 using Cysharp.Threading.Tasks;
 using UI.Elements;
 using UnityEngine.SceneManagement;
-using Zenject;
 
 namespace Transition
 {
-	public class SceneChanger : IInitializable
+	public class SceneChanger
 	{
 		private readonly FadingScreen _fading;
 
@@ -14,7 +13,7 @@ namespace Transition
 			_fading = fading;
 		}
 
-		public async void Initialize()
+		public async UniTask ShowScreen()
 		{
 			await _fading.FadeIn();
 		}
