@@ -1,6 +1,8 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Transition;
 using UI.Views.MainMenu;
+using UniRx;
 using UnityEditor;
 using Zenject;
 
@@ -8,6 +10,8 @@ namespace Presenters.MainMenu
 {
 	public sealed class MenuPresenter : IInitializable, IDisposable
 	{
+		private readonly CompositeDisposable _disposables = new();
+
 		private readonly MenuView _view;
 		private readonly SceneChanger _sceneChanger;
 		private readonly SceneAsset _gameScene;
@@ -20,23 +24,25 @@ namespace Presenters.MainMenu
 			_view = view;
 			_sceneChanger = sceneChanger;
 			_gameScene = gameScene;
-
-			_view.PlayButtonPressed += StartGame;
 		}
 
 		public async void Initialize()
 		{
+			_view.PlayButtonPressed
+				.Subscribe(_ => StartGame().Forget())
+				.AddTo(_disposables);
+
 			await _sceneChanger.ShowScreen();
 		}
 
-		public async void StartGame()
+		public async UniTask StartGame()
 		{
 			await _sceneChanger.ChangeSceneAsync(_gameScene.name);
 		}
 
 		public void Dispose()
 		{
-			_view.PlayButtonPressed -= StartGame;
+			_disposables.Dispose();
 		}
 	}
 }
