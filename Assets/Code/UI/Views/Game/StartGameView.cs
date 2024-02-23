@@ -1,5 +1,5 @@
 using Extensions;
-using System;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +7,7 @@ namespace UI.Views.Game
 {
 	public class StartGameView : MonoBehaviour
 	{
-		public event Action PlayButtonPressed;
+		public ReactiveCommand PlayButtonPressed { get; } = new();
 
 		[SerializeField] private Button _startButton;
 		[SerializeField] private Image[] _images;
@@ -25,7 +25,7 @@ namespace UI.Views.Game
 				_images[i].gameObject.SetActive(isActive);
 		}
 
-		private void NotifyPlayButtonPressed() => PlayButtonPressed?.Invoke();
+		private void NotifyPlayButtonPressed() => PlayButtonPressed.Execute();
 
 		private void OnEnable()
 		{

@@ -4,12 +4,16 @@ using Configs.Bird;
 using Core;
 using Core.StateMachines.Game;
 using Core.StateMachines.Game.States;
+using Cysharp.Threading.Tasks;
 using ObjectMovers;
+using UniRx;
 
 namespace UpdateCoordinators.Game
 {
 	public sealed class BirdUpdateCoordinator : IDisposable
 	{
+		private readonly CompositeDisposable _disposables = new();
+
 		private readonly BirdFacade _bird;
 		private readonly Updater _updater;
 		private readonly YSinusMover _mover;
@@ -27,14 +31,13 @@ namespace UpdateCoordinators.Game
 			_mover = new YSinusMover(bird.transform, config.SinusMotion);
 
 			_updateState = stateMachine.ResolveState<StartGameState>();
-			_updateState.OnEntered += Enable;
-			_updateState.OnExited += Disable;
+			_updateState.OnEntered.Subscribe(_ => Enable()).AddTo(_disposables);
+			_updateState.OnExited.Subscribe(_ => Disable()).AddTo(_disposables);
 		}
 
 		public void Dispose()
 		{
-			_updateState.OnEntered -= Enable;
-			_updateState.OnExited -= Disable;
+			_disposables.Dispose();
 		}
 
 		private void Enable()

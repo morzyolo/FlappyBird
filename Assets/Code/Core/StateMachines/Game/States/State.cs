@@ -1,11 +1,11 @@
-using System;
+using UniRx;
 
 namespace Core.StateMachines.Game.States
 {
 	public abstract class State
 	{
-		public event Action OnEntered;
-		public event Action OnExited;
+		public ReactiveCommand OnEntered { get; } = new();
+		public ReactiveCommand OnExited { get; } = new();
 
 		protected StateMachine StateMachine;
 
@@ -16,12 +16,12 @@ namespace Core.StateMachines.Game.States
 
 		public void Enter()
 		{
-			OnEntered?.Invoke();
+			OnEntered.Execute();
 		}
 
 		public void Exit()
 		{
-			OnExited?.Invoke();
+			OnExited.Execute();
 		}
 	}
 }

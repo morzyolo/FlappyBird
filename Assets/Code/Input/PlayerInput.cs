@@ -24,8 +24,8 @@ namespace Input
 			_inputPanel = inputPanel;
 
 			_state = stateMachine.ResolveState<InGameState>();
-			_state.OnEntered += Enable;
-			_state.OnExited += Disable;
+			_state.OnEntered.Subscribe(_ => Enable()).AddTo(_disposables);
+			_state.OnExited.Subscribe(_ => Disable()).AddTo(_disposables);
 		}
 
 		public void Initialize()
@@ -38,8 +38,6 @@ namespace Input
 
 		public void Dispose()
 		{
-			_state.OnEntered -= Enable;
-			_state.OnExited -= Disable;
 			_disposables.Dispose();
 		}
 

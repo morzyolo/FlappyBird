@@ -4,15 +4,19 @@ using Configs.Motion;
 using Core;
 using Core.StateMachines.Game;
 using Core.StateMachines.Game.States;
+using Cysharp.Threading.Tasks;
 using HeightDeterminers;
 using MovingObjects;
 using ObjectMovers;
 using Resetters;
+using UniRx;
 
 namespace UpdateCoordinators.Game
 {
 	public sealed class GroundUpdateCoordinator : IDisposable
 	{
+		private readonly CompositeDisposable _disposables = new();
+
 		private readonly Updater _updater;
 		private readonly Resetter<Ground> _resetter;
 		private readonly HorizontalMover<Ground> _mover;
@@ -35,14 +39,13 @@ namespace UpdateCoordinators.Game
 			_startState = stateMachine.ResolveState<StartGameState>();
 			_endState = stateMachine.ResolveState<InGameState>();
 
-			_startState.OnEntered += Enable;
-			_endState.OnExited += Disable;
+			_startState.OnEntered.Subscribe(_ => Enable()).AddTo(_disposables);
+			_endState.OnExited.Subscribe(_ => Disable()).AddTo(_disposables);
 		}
 
 		public void Dispose()
 		{
-			_startState.OnEntered -= Enable;
-			_endState.OnExited -= Disable;
+			_disposables.Dispose();
 		}
 
 		private void Enable()

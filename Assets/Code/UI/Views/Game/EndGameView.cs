@@ -1,9 +1,9 @@
-using System;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Extensions;
 using TMPro;
 using UI.Elements;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +11,8 @@ namespace UI.Views.Game
 {
 	public class EndGameView : MonoBehaviour
 	{
-		public event Action OnRestartButtonPressed;
-		public event Action OnExitButtonPressed;
+		public ReactiveCommand OnRestartButtonPressed { get; } = new();
+		public ReactiveCommand OnExitButtonPressed { get; } = new();
 
 		[SerializeField] private EndGamePanel _panel;
 		[SerializeField] private TMP_Text _gameOverText;
@@ -61,9 +61,9 @@ namespace UI.Views.Game
 				.ToUniTask();
 		}
 
-		private void NotifyRestartButtonPressed() => OnRestartButtonPressed?.Invoke();
+		private void NotifyRestartButtonPressed() => OnRestartButtonPressed.Execute();
 
-		private void NotifyExitButtonPressed() => OnExitButtonPressed?.Invoke();
+		private void NotifyExitButtonPressed() => OnExitButtonPressed.Execute();
 
 		private void OnEnable()
 		{

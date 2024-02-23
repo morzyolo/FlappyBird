@@ -1,16 +1,20 @@
 using System;
 using Core.StateMachines.Game;
 using Core.StateMachines.Game.States;
+using Cysharp.Threading.Tasks;
 using DataHandlers.Handlers;
 using Models;
 using Transition;
 using UI.Views.Game;
+using UniRx;
 using UnityEditor;
 
 namespace Presenters.Game
 {
 	public sealed class EndGamePresenter : IDisposable
 	{
+		private readonly CompositeDisposable _disposables = new();
+
 		private readonly EndGameView _view;
 		private readonly Score _score;
 		private readonly SceneAsset _menuScene;
@@ -36,16 +40,17 @@ namespace Presenters.Game
 			_state = stateMachine.ResolveState<EndGameState>();
 
 			_view.Hide();
-			_state.OnEntered += Enable;
-			_state.OnExited += Disable;
-			_view.OnExitButtonPressed += GoToMenu;
+			_state.OnEntered.Subscribe(_ => Enable()).AddTo(_disposables);
+			_state.OnExited.Subscribe(_ => Disable()).AddTo(_disposables);
+
+			_view.OnExitButtonPressed
+				.Subscribe(_ => GoToMenu().Forget())
+				.AddTo(_disposables);
 		}
 
 		public void Dispose()
 		{
-			_state.OnEntered -= Enable;
-			_state.OnExited -= Disable;
-			_view.OnExitButtonPressed -= GoToMenu;
+			_disposables.Dispose();
 		}
 
 		private void Enable()
@@ -67,7 +72,7 @@ namespace Presenters.Game
 			_view.Hide();
 		}
 
-		private async void GoToMenu()
+		private async UniTask GoToMenu()
 		{
 			await _sceneChanger.ChangeSceneAsync(_menuScene.name);
 		}

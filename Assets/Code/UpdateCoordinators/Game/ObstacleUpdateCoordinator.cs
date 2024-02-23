@@ -4,15 +4,19 @@ using Configs.Motion;
 using Core;
 using Core.StateMachines.Game;
 using Core.StateMachines.Game.States;
+using Cysharp.Threading.Tasks;
 using HeightDeterminers;
 using MovingObjects.ObstacleComponents;
 using ObjectMovers;
 using Resetters;
+using UniRx;
 
 namespace UpdateCoordinators.Game
 {
 	public sealed class ObstacleUpdateCoordinator : IDisposable
 	{
+		private readonly CompositeDisposable _disposables = new();
+
 		private readonly Updater _updater;
 		private readonly Resetter<Obstacle> _resetter;
 		private readonly HorizontalMover<Obstacle> _mover;
@@ -35,16 +39,14 @@ namespace UpdateCoordinators.Game
 			_resetState = stateMachine.ResolveState<StartGameState>();
 			_updateState = stateMachine.ResolveState<InGameState>();
 
-			_resetState.OnEntered += Reset;
-			_updateState.OnEntered += Enable;
-			_updateState.OnExited += Disable;
+			_resetState.OnEntered.Subscribe(_ => Reset()).AddTo(_disposables);
+			_updateState.OnEntered.Subscribe(_ => Enable()).AddTo(_disposables);
+			_updateState.OnExited.Subscribe(_ => Disable()).AddTo(_disposables);
 		}
 
 		public void Dispose()
 		{
-			_resetState.OnEntered -= Reset;
-			_updateState.OnEntered -= Enable;
-			_updateState.OnExited -= Disable;
+			_disposables.Dispose();
 		}
 
 		private void Reset()
