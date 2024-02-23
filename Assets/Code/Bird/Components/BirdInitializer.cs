@@ -26,6 +26,7 @@ namespace Bird.Components
 			BirdAnimator birdAnimator = new(spriteChanger, _config.AnimationData);
 
 			_birdAudio = new(_crossingDetector, flapping, _audioSource, _config);
+			_birdAudio.Initialize();
 			_facade.Construct(birdAnimator, flapping, _crossingDetector);
 		}
 
