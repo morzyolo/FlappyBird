@@ -1,11 +1,13 @@
 using System;
 using UI.Views.Game;
+using UniRx;
 using Zenject;
 
 namespace Core.StateMachines.Game.States
 {
 	public sealed class StartGameState : State, IInitializable, IDisposable
 	{
+		private readonly CompositeDisposable _dispodables = new();
 		private readonly StartGameView _startView;
 
 		public StartGameState(StartGameView startView)
@@ -15,12 +17,14 @@ namespace Core.StateMachines.Game.States
 
 		public void Initialize()
 		{
-			_startView.PlayButtonPressed += GoToNext;
+			_startView.PlayButtonPressed
+				.Subscribe(_ => GoToNext())
+				.AddTo(_dispodables);
 		}
 
 		public void Dispose()
 		{
-			_startView.PlayButtonPressed -= GoToNext;
+			_dispodables.Dispose();
 		}
 
 		private void GoToNext()
