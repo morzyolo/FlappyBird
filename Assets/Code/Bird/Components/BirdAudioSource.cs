@@ -7,6 +7,8 @@ namespace Bird.Components
 {
 	public sealed class BirdAudioSource : IInitializable, IDisposable
 	{
+		private readonly CompositeDisposable _disposables = new();
+
 		private readonly BirdCrossingDetector _crossingDetector;
 		private readonly BirdFlapping _birdFlapping;
 		private readonly AudioSource _audioSource;
@@ -27,15 +29,17 @@ namespace Bird.Components
 		public void Initialize()
 		{
 			_crossingDetector.Collided += PlayCollisionSound;
-			_birdFlapping.Flapped += PlayFlapSound;
 			_crossingDetector.ObstaclePassed += PlayPassClip;
+			_birdFlapping.Flapped
+				.Subscribe(_ => PlayFlapSound())
+				.AddTo(_disposables);
 		}
 
 		public void Dispose()
 		{
 			_crossingDetector.Collided -= PlayCollisionSound;
-			_birdFlapping.Flapped -= PlayFlapSound;
 			_crossingDetector.ObstaclePassed -= PlayPassClip;
+			_disposables.Dispose();
 		}
 
 		private void PlayCollisionSound() => PlayClip(_config.CollidedClip);

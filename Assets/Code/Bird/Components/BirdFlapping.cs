@@ -2,13 +2,14 @@ using System;
 using System.Threading;
 using Configs.Bird;
 using Cysharp.Threading.Tasks;
+using UniRx;
 using UnityEngine;
 
 namespace Bird.Components
 {
 	public sealed class BirdFlapping : IDisposable
 	{
-		public event Action Flapped;
+		public ReactiveCommand Flapped { get; } = new();
 
 		private readonly Transform _transform;
 		private readonly Rigidbody2D _rigidbody;
@@ -59,7 +60,7 @@ namespace Bird.Components
 
 			_rigidbody.velocity = Vector3.zero;
 			_rigidbody.AddForce(Vector2.up * _config.FlapForce, ForceMode2D.Impulse);
-			Flapped?.Invoke();
+			Flapped.Execute();
 
 			do
 			{
