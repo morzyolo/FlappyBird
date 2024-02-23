@@ -3,11 +3,14 @@ using Core.StateMachines.Game;
 using Core.StateMachines.Game.States;
 using Models;
 using UI.Views.Game;
+using UniRx;
 
 namespace Controllers
 {
 	public sealed class ScoreController : IDisposable
 	{
+		private readonly CompositeDisposable _disposables = new();
+
 		private readonly ScoreView _view;
 		private readonly Score _score;
 		private readonly InGameState _state;
@@ -19,18 +22,15 @@ namespace Controllers
 			_state = stateMachine.ResolveState<InGameState>();
 
 			_view.Hide();
-			_state.OnEntered += Enable;
-			_state.OnExited += Disable;
 
-			_score.OnValueChanged += ChangeScore;
+			_state.OnEntered.Subscribe(_ => Enable()).AddTo(_disposables);
+			_state.OnExited.Subscribe(_ => Disable()).AddTo(_disposables);
+			_score.Value.Subscribe(value => ChangeScore(value)).AddTo(_disposables);
 		}
 
 		public void Dispose()
 		{
-			_state.OnEntered -= Enable;
-			_state.OnExited -= Disable;
-
-			_score.OnValueChanged += ChangeScore;
+			_disposables.Dispose();
 		}
 
 		private void Enable()

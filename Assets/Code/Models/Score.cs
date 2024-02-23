@@ -1,17 +1,18 @@
-using Bird;
 using System;
+using Bird;
+using UniRx;
 using Zenject;
 
 namespace Models
 {
 	public sealed class Score : IInitializable, IDisposable
 	{
-		public event Action<int> OnValueChanged;
+		public int CurrentScore => Value.Value;
+		public ReactiveProperty<int> Value = new(0);
 
 		private readonly BirdFacade _bird;
 
-		public int CurrentScore => _currentScore;
-		private int _currentScore = 0;
+		private readonly CompositeDisposable _disposables = new();
 
 		public Score(BirdFacade bird)
 		{
@@ -20,13 +21,12 @@ namespace Models
 
 		public void AddScore()
 		{
-			_currentScore++;
-			OnValueChanged?.Invoke(_currentScore);
+			Value.Value++;
 		}
 
 		public void Reset()
 		{
-			_currentScore = 0;
+			Value.Value = 0;
 		}
 
 		public void Initialize()
