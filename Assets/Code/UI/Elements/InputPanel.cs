@@ -1,4 +1,4 @@
-using System;
+using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,12 +7,12 @@ namespace UI.Elements
 {
 	public class InputPanel : MonoBehaviour, IPointerDownHandler
 	{
-		public event Action Clicked;
+		public ReactiveCommand Clicked { get; } = new();
 
 		[SerializeField] private Image _input;
 
 		public void OnPointerDown(PointerEventData eventData)
-			=> Clicked?.Invoke();
+			=> Clicked.Execute();
 
 		public void IsEnable(bool isEnable)
 		{

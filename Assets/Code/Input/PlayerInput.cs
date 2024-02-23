@@ -3,12 +3,15 @@ using Bird;
 using Core.StateMachines.Game;
 using Core.StateMachines.Game.States;
 using UI.Elements;
+using UniRx;
 using Zenject;
 
 namespace Input
 {
 	public sealed class PlayerInput : IInitializable, IDisposable
 	{
+		private readonly CompositeDisposable _disposables = new();
+
 		private readonly BirdFacade _bird;
 		private readonly InputPanel _inputPanel;
 		private readonly State _state;
@@ -27,15 +30,17 @@ namespace Input
 
 		public void Initialize()
 		{
-			_inputPanel.Clicked += FlapIfEnable;
+			_inputPanel.Clicked
+				.Subscribe(_ => FlapIfEnable())
+				.AddTo(_disposables);
 			SetIsEnable(false);
 		}
 
 		public void Dispose()
 		{
-			_inputPanel.Clicked -= FlapIfEnable;
 			_state.OnEntered -= Enable;
 			_state.OnExited -= Disable;
+			_disposables.Dispose();
 		}
 
 		public void Enable() => SetIsEnable(true);
