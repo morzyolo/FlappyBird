@@ -2482,7 +2482,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff24f5add1edc674fa4d883868e83431, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _menuScene: {fileID: 102900000, guid: 9958020b222d1384790db5e69be9ae70, type: 3}
+  _menuScene:
+    sceneAsset: {fileID: 102900000, guid: 9958020b222d1384790db5e69be9ae70, type: 3}
+    scenePath: Assets/Scenes/Menu.unity
 --- !u!114 &1076120586
 MonoBehaviour:
   m_ObjectHideFlags: 0
