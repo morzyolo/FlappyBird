@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using Transition;
 using UI.Views.MainMenu;
 using UniRx;
-using UnityEditor;
+using Utils.SceneReference;
 using Zenject;
 
 namespace Presenters.MainMenu
@@ -14,12 +14,12 @@ namespace Presenters.MainMenu
 
 		private readonly MenuView _view;
 		private readonly SceneChanger _sceneChanger;
-		private readonly SceneAsset _gameScene;
+		private readonly SceneReference _gameScene;
 
 		public MenuPresenter(
 			MenuView view,
 			SceneChanger sceneChanger,
-			SceneAsset gameScene)
+			SceneReference gameScene)
 		{
 			_view = view;
 			_sceneChanger = sceneChanger;
@@ -37,7 +37,7 @@ namespace Presenters.MainMenu
 
 		public async UniTask StartGame()
 		{
-			await _sceneChanger.ChangeSceneAsync(_gameScene.name);
+			await _sceneChanger.ChangeSceneAsync(_gameScene);
 		}
 
 		public void Dispose()

@@ -7,7 +7,7 @@ using Models;
 using Transition;
 using UI.Views.Game;
 using UniRx;
-using UnityEditor;
+using Utils.SceneReference;
 
 namespace Presenters.Game
 {
@@ -17,7 +17,7 @@ namespace Presenters.Game
 
 		private readonly EndGameView _view;
 		private readonly Score _score;
-		private readonly SceneAsset _menuScene;
+		private readonly SceneReference _menuScene;
 		private readonly SceneChanger _sceneChanger;
 		private readonly PlayerStatsDataHandler _statsHandler;
 
@@ -26,7 +26,7 @@ namespace Presenters.Game
 		public EndGamePresenter(
 			EndGameView view,
 			Score score,
-			SceneAsset menuScene,
+			SceneReference menuScene,
 			StateMachine stateMachine,
 			SceneChanger sceneChanger,
 			PlayerStatsDataHandler statsHandler
@@ -74,7 +74,7 @@ namespace Presenters.Game
 
 		private async UniTask GoToMenu()
 		{
-			await _sceneChanger.ChangeSceneAsync(_menuScene.name);
+			await _sceneChanger.ChangeSceneAsync(_menuScene);
 		}
 	}
 }

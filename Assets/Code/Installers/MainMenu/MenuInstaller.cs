@@ -1,7 +1,7 @@
 using Presenters.MainMenu;
 using UI.Views.MainMenu;
-using UnityEditor;
 using UnityEngine;
+using Utils.SceneReference;
 using Zenject;
 
 namespace Installers.MainMenu
@@ -9,7 +9,7 @@ namespace Installers.MainMenu
 	public class MenuInstaller : MonoInstaller
 	{
 		[SerializeField] private MenuView _menuView;
-		[SerializeField] private SceneAsset _gameScene;
+		[SerializeField] private SceneReference _gameScene;
 
 		public override void InstallBindings()
 		{
