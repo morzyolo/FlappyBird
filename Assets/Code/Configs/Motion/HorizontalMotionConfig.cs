@@ -5,18 +5,18 @@ namespace Configs.Motion
 	[CreateAssetMenu(menuName = "MotionConfig/Horizontal", order = 2)]
 	public class HorizontalMotionConfig : ScriptableObject
 	{
-		public GameObject Prefab { get => _prefab; }
+		public GameObject Prefab => _prefab;
 
-		public int ObjectsCount { get => _objectsCount; }
+		public int ObjectsCount => _objectsCount;
 
-		public float MoveSpeed { get => _moveSpeed; }
+		public float MoveSpeed => _moveSpeed;
 
-		public float StartX { get => _startX; }
-		public float EndX { get => _endX; }
-		public float XOffset { get => _xOffset; }
+		public float StartX => _startX;
+		public float EndX => _endX;
+		public float XOffset => _xOffset;
 
-		public float MaxHeight { get => _maxHeight; }
-		public float MinHeight { get => _minHeight; }
+		public float MaxHeight => _maxHeight;
+		public float MinHeight => _minHeight;
 
 		[SerializeField] private GameObject _prefab;
 

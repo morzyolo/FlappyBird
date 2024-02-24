@@ -2,13 +2,11 @@ namespace HeightDeterminers
 {
 	public class ConstHeightDeterminer : IHeightDeterminer
 	{
-		public float Height => _height;
-
-		private readonly float _height;
+		public float Height { get; }
 
 		public ConstHeightDeterminer(float height)
 		{
-			_height = height;
+			Height = height;
 		}
 	}
 }

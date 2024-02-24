@@ -6,7 +6,6 @@ using HeightDeterminers;
 using MovingObjects;
 using ObjectMovers;
 using Resetters;
-using UnityEngine;
 using Zenject;
 
 namespace UpdateCoordinators.Menu
