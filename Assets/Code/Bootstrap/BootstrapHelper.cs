@@ -1,16 +1,16 @@
+using SceneReference;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Utils.SceneReference;
 
 namespace Code.Bootstrap
 {
 	public class BootstrapHelper : MonoBehaviour
 	{
-		[SerializeField] private SceneReference _menuScene;
+		[SerializeField] private SceneRef _menuScene;
 
 		private void Start()
 		{
-			SceneManager.LoadScene(_menuScene.ScenePath, LoadSceneMode.Single);
+			SceneManager.LoadScene(_menuScene, LoadSceneMode.Single);
 		}
 	}
 }

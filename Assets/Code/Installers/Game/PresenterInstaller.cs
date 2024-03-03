@@ -1,13 +1,13 @@
 using Presenters.Game;
+using SceneReference;
 using UnityEngine;
-using Utils.SceneReference;
 using Zenject;
 
 namespace Installers.Game
 {
 	public class PresenterInstaller : MonoInstaller
 	{
-		[SerializeField] private SceneReference _menuScene;
+		[SerializeField] private SceneRef _menuScene;
 
 		public override void InstallBindings()
 		{

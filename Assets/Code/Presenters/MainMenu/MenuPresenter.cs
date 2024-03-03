@@ -1,9 +1,9 @@
 using System;
 using Cysharp.Threading.Tasks;
+using SceneReference;
 using Transition;
 using UI.Views.MainMenu;
 using UniRx;
-using Utils.SceneReference;
 using Zenject;
 
 namespace Presenters.MainMenu
@@ -14,12 +14,12 @@ namespace Presenters.MainMenu
 
 		private readonly MenuView _view;
 		private readonly SceneChanger _sceneChanger;
-		private readonly SceneReference _gameScene;
+		private readonly SceneRef _gameScene;
 
 		public MenuPresenter(
 			MenuView view,
 			SceneChanger sceneChanger,
-			SceneReference gameScene)
+			SceneRef gameScene)
 		{
 			_view = view;
 			_sceneChanger = sceneChanger;

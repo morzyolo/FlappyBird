@@ -4,10 +4,10 @@ using Core.StateMachines.Game.States;
 using Cysharp.Threading.Tasks;
 using DataHandlers.Handlers;
 using Models;
+using SceneReference;
 using Transition;
 using UI.Views.Game;
 using UniRx;
-using Utils.SceneReference;
 
 namespace Presenters.Game
 {
@@ -17,7 +17,7 @@ namespace Presenters.Game
 
 		private readonly EndGameView _view;
 		private readonly Score _score;
-		private readonly SceneReference _menuScene;
+		private readonly SceneRef _menuScene;
 		private readonly SceneChanger _sceneChanger;
 		private readonly PlayerStatsDataHandler _statsHandler;
 
@@ -26,7 +26,7 @@ namespace Presenters.Game
 		public EndGamePresenter(
 			EndGameView view,
 			Score score,
-			SceneReference menuScene,
+			SceneRef menuScene,
 			StateMachine stateMachine,
 			SceneChanger sceneChanger,
 			PlayerStatsDataHandler statsHandler
